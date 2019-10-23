@@ -13,7 +13,7 @@ import java.net.MulticastSocket;
 public class Multicast {
 	
 	private static String ip_group = "230.0.0.0";
-	private static int port = 4448;
+	private static int port = 5448;
 	private MulticastSocket socket;
 	private InetAddress group;
 	
