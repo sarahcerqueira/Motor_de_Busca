@@ -1,4 +1,4 @@
-package util;
+package model;
 import java.net.InetAddress;
 
 /** Guarda informações dos pacotes recebidos para que seja possível responder aos clientes depois.
