@@ -1,30 +1,141 @@
 package model;
 
+import java.util.ArrayList;
+
+/** Define um usuário do sistema. Cada usuário tem uma username, senha, uma váriavel que indica 
+ * se ele é um administrador ou não, uma lista de notificação e um histórico de pesquisa.
+ * O histórico de notificações é para informa ao usuário das suas alterações de permissão no 
+ * sistema. O histórico de notificações funciona como uma fila.
+ * Já o histórico de pesquisa quarta todos os sites que fora acessados pelo usuário.
+ * 
+ */
 public class User {
 	private String username;
 	private String password;
 	private boolean admin;
+	private ArrayList<String> notification;
+	private ArrayList<Story> historic;
 	
+	/**Configura informações importantes relacionadas a um usuário, e
+	 * inicia os arrays de histórico e notificações.
+	 * 
+	 * @param username 		Username do usuário.
+	 * @param password		Senha do usuário.
+	 * @param admin			Define se o usuário é um administrador ou não.
+	 */
 	public User (String username, String password, boolean admin) {
 		this.username = username;
 		this.password = password;
 		this.admin = admin;
+		this.notification = new ArrayList<String>();
+		this.historic = new ArrayList<Story>();
 	}
-
+	
+	
+	/** Confere se a password passada corresponde com a password do usuário.
+	 * 
+	 * @param password	Senha a ser conferida.
+	 * @return 			Retorna False se a senha não corresponder a senha do usuário.
+	 */
+	public boolean login(String password){
+		if(this.password.equals(password)) {
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	/** Verifica se um usuário é administrador ou não.
+	 * 
+	 * @return 		Retorna verdadeiro se o usuário for administrador.
+	 */
 	public boolean isAdmin() {
 		return admin;
 	}
 
+	/**Muda a permissão de usuário.
+	 * 
+	 * @param admin 	Boolean que confirma ou não que um usuário é administrador.
+	 */
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
 
+	/** Retorna o username do usuário.
+	 * 
+	 * @return		Retorna uma String com o username do usuário.
+	 */
 	public String getUsername() {
 		return username;
 	}
 
-	public String getPassword() {
-		return password;
+	/**Adiciona um histórico de acesso. O método primeiro verifica se o site consta no histórico.
+	 * Se o site já existir no histórico, o histórico anterior é removido, e é adicionado o 
+	 * histórico de acesso mais recente à aquele site.
+	 * 
+	 * @param data 		Data de acesso ao site.
+	 * @param hora		Hora de acesso ao site.
+	 * @param site		Instancia Site com as informações do site acessado.
+	 */
+	public void addStory(String data, String hora, Site site){
+		this.checkIfUrlExit(site);
+		this.historic.add(new Story(data, hora, site));
+		
+	}
+	
+	/**Este método serve para verificar se um site já está no histórico. Se o site for encontrado
+	 * no histórico, o site é removido. Isso ajuda que um site não tenha dois históricos de acesso
+	 * diferente, economizando recursos de armazenamento.
+	 * 
+	 * @param site 	Instancia do site.
+	 */
+	private void checkIfUrlExit(Site site) {
+		int tam = this.historic.size();
+		
+		for(int i = 0; i<tam; i++) {
+			
+			if(this.historic.get(i).getSite().getUrl().equals(site.getUrl())){
+				this.historic.remove(i);
+				break;
+			}
+		}
+		
+	}
+	
+	/** Verifica se há notificações para um determinado usuário.
+	 * 
+	 * @return 		Retorna verdadeiro se hover notificações.
+	 */
+	public boolean hasNotification() {
+		
+		if(this.notification.isEmpty()) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**Retorna a notificação mais antiga cadatrada. Caso o array de notificações estiver vazio,
+	 * retorna nulo.
+	 * 
+	 * @return		Retorna a String de notificação se hover notificação, ou nulo.
+	 */
+	public String getNotification() {
+		if(!this.notification.isEmpty()) {
+			return this.notification.get(0);
+		}
+		
+		return null;
+	}
+	
+	/**Remove as notificações mais antigas. Se não houver notificações para serem excluídas 
+	 * nada é feito.
+	 */
+	public void removeNotification() {
+		if(!this.notification.isEmpty()) {
+			this.notification.remove(0);
+		}
 	}
 	
 	
