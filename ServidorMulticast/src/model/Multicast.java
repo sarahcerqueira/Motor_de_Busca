@@ -33,10 +33,10 @@ public class Multicast {
 	 * @throws IOException	Lança exceção se não for possível aceitar o pacote recebido.
 	 * @return 				Retorna um vetor de bytes com os dados do pacote recebido.
 	 * */
-	public byte[] acceptPacket(byte[] buf) throws IOException {
+	public PacketReceived acceptPacket(byte[] buf) throws IOException {
 		DatagramPacket packet = new DatagramPacket(buf, buf.length);
 		socket.receive(packet);
-		return packet.getData();
+		return new PacketReceived(packet.getAddress(), packet.getData(), packet.getPort());
 	}
 	
 	/**Envia pacotes UDP para o grupo multicast. 
@@ -46,6 +46,19 @@ public class Multicast {
 	 **/
 	public void sendPacket(byte[] buf) throws IOException {
 		DatagramPacket packet = new DatagramPacket(buf, buf.length, group, port);
+		socket.send(packet);
+	}
+	
+	
+	/** Envia pacote para um determinado usuário.
+	 * 
+	 * @param buf		Mensagem a qual será enviada como vetor de bytes.
+	 * @param ip		Endereço de ip da resposta.
+	 * @param port		Porta pela qual a mensagem deve ser enviada.
+	 * @throws IOException Exceção lançada caso haja problemas ao enviar o pacote.
+	 */
+	public void sendPacketUser(byte[] buf, InetAddress ip, int port) throws IOException {
+		DatagramPacket packet = new DatagramPacket(buf, buf.length, ip, port);
 		socket.send(packet);
 	}
 	

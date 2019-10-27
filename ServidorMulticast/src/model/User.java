@@ -23,10 +23,10 @@ public class User {
 	 * @param password		Senha do usuário.
 	 * @param admin			Define se o usuário é um administrador ou não.
 	 */
-	public User (String username, String password, boolean admin) {
+	public User (String username, String password) {
 		this.username = username;
 		this.password = password;
-		this.admin = admin;
+		this.admin = false;
 		this.notification = new ArrayList<String>();
 		this.historic = new ArrayList<Story>();
 	}
@@ -69,6 +69,14 @@ public class User {
 	public String getUsername() {
 		return username;
 	}
+	
+	/** Pega o histórico do usuário.
+	 * 
+	 * @return		Retorna um array list de Story, que contém o histórico de acesso de m usuário.
+	 */
+	public ArrayList<Story> getHistoric(){
+		return this.historic;
+	}
 
 	/**Adiciona um histórico de acesso. O método primeiro verifica se o site consta no histórico.
 	 * Se o site já existir no histórico, o histórico anterior é removido, e é adicionado o 
@@ -78,9 +86,9 @@ public class User {
 	 * @param hora		Hora de acesso ao site.
 	 * @param site		Instancia Site com as informações do site acessado.
 	 */
-	public void addStory(String data, String hora, Site site){
+	public void addStory(String date, String hour, Site site){
 		this.checkIfUrlExit(site);
-		this.historic.add(new Story(data, hora, site));
+		this.historic.add(new Story(date, hour, site));
 		
 	}
 	
@@ -136,6 +144,14 @@ public class User {
 		if(!this.notification.isEmpty()) {
 			this.notification.remove(0);
 		}
+	}
+	
+	/** Adiciona uma noticiação para um usuário.
+	 * 
+	 * @param notification 	Mensagem de notificação.
+	 */
+	public void addNotification(String notification) {
+		this.notification.add(notification);
 	}
 	
 	
