@@ -50,7 +50,7 @@ public class MainClientRMI {
 						System.out.println("\nBem-vindo ao UCBusca "+ username);
 						
 						if(servidor.userIsAdmin(username)) {
-							main.opcoesAdmin();
+							main.opcoesAdmin(username);
 						} else {
 							main.opcoesUsuario(username);}
 						
@@ -75,7 +75,7 @@ public class MainClientRMI {
 							System.out.println("\nObrigada por se registrar no UCBusca *-* \n");
 							
 							if(servidor.userIsAdmin(username)) {
-								main.opcoesAdmin();
+								main.opcoesAdmin(username);
 							} else {
 								main.opcoesUsuario(username);}
 							
@@ -105,13 +105,7 @@ public class MainClientRMI {
 	
 	public void opcoesUsuario(String username){
 		
-		try {
-			
-			if(servidor.userHasNotification(username)) {
-				System.out.println(servidor.getUserNotification(username));
-				servidor.removeUserNotification(username);
-			}
-			
+	
 			while(true) {
 				
 				switch(opcao) {
@@ -134,19 +128,20 @@ public class MainClientRMI {
 				opcao =	scanner.nextLine();
 
 			}
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		
 	}
 	
-	public void opcoesAdmin() {
-		String username;
+	public void opcoesAdmin(String username) {
+		
+		try {
+			if(servidor.userHasNotification(username)) {
+				System.out.println(servidor.getUserNotification(username));
+				servidor.removeUserNotification(username);
+			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		while(true) {
 					

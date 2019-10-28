@@ -24,7 +24,7 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		String request = "login|username;"+username + "|password;"+password+"|";
 		String answer = this.makeRequest(request);
 			
-		if(answer.split("\\|")[1].equals("true")) {
+		if(answer.split("\\|")[1].split(";")[1].equals("true")) {
 			return true;
 		}
 		
@@ -36,7 +36,7 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		String request = "useRegistry|username;"+username + "|password;"+password+"|";
 		String answer = this.makeRequest(request);
 				
-		if(answer.split("\\|")[1].equals("true")) {
+		if(answer.split("\\|")[1].split(";")[1].equals("true")) {
 			return true;
 		}
 		

@@ -98,8 +98,6 @@ public class MainServerMulticast {
 				case("qtdSearchSync"):
 					answer = system.qtdSearchSync(request);
 					break;
-				
-				
 				}
 				
 				//Se for necessário enviar alguma resposta
@@ -107,12 +105,8 @@ public class MainServerMulticast {
 					multicast.sendPacketUser(answer.getBytes(), packet.getIp(), packet.getPort());
 				}
 				
-				//Só para pa teste apagar depois
-				//Scanner s = new Scanner(System.in);
-				//s.nextLine();
 			}
 
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
