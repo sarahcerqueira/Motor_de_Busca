@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import model.Story;
 import model.UCBusca;
 
-/** O controler adpta dos dados que chegam em pacotes UDP para o sistema, e vice-versa.
+/** O controler adpta os dados que chegam em pacotes UDP para o sistema, e vice-versa.
  */
 public class Controler {
 	private UCBusca ucBusca;
@@ -166,6 +166,7 @@ public class Controler {
 		return "userHasNotification|false|";
 	}
 	
+	/**/
 	public String getUserNotification(String[] request) {
 		String username = request[1].split(";")[1];
 		

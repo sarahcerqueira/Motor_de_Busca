@@ -22,23 +22,24 @@ Passos para compilação:
 
 8. Primeiro execute o ServidorMulticast
 9. Segundo execute o ServerRMI
-10. E por fim o ClientRMI
+10. E por fim  execute o ClientRMI
 
 ## Explicação do funcionamento do sistema
 
- A atual versão do sistema só funciona com um de cada servidor. E só fora impementadas as seguintes funcionalidades
+ A atual versão do sistema só funciona com um de cada servidor. E só fora implementadas as seguintes funcionalidades
 
- <b> Funcionalidades do sistema <b>
+ <b> Funcionalidades do sistema </b>
  * Comunicação Multicast
  * Comunicação RMI
  * Comunicação UDP
+ * Primeiro usuário a se cadastrar é o administrador
 
- <b> Funcionalidades de todo usuário<b>
+ <b> Funcionalidades de todo usuário</b>
  * Registro
  * Login
  * Receber notificação quando se muda a permissão do usuário
 
- <b> Funcionalidades do administrador <b>
+ <b> Funcionalidades do administrador </b>
  * Mudar permissão de usuário
 
 
