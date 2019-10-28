@@ -5,18 +5,18 @@ Passos para compilação:
 
 1. Extrair o arquivo Motor_de_Busca
 2. Abrir o terminal e navegar até a pastar "Motor_de_Busca"
-3. Entrar na pasta: "Motor_de_Busca\ServerRMI\src"
-	cd Motor_de_Busca\ServerRMI\src
-4. Da o seguinte comando:
+3. Entrar na pasta: "Motor_de_Busca\ServerRMI\src"</br>
+	 cd Motor_de_Busca\ServerRMI\src
+4. Da o seguinte comando: </br>
 	javac model/ServerRMI.java
-5. Construir stub e skeleton:
+5. Construir stub e skeleton: </br>
 	rmic model.ServerRMI
-6. Iniciar o RMI Registry
+6. Iniciar o RMI Registry </br>
 	start start rmiregistry
-7. Todas as pastas no "Motor_de_Buscar":
-	ClientRMI
-	ServerRMI
-	ServidorMulticast
+7. Todas as pastas no "Motor_de_Buscar":</br>
+	ClientRMI</br>
+	ServerRMI</br>
+	ServidorMulticast</br>
 
 	são todas projetos java do Eclipse. Importe cada projeto individualmente.
 
@@ -26,7 +26,7 @@ Passos para compilação:
 
 ## Explicação do funcionamento do sistema
 
- A atual versão do sistema só funciona com um de cada servidor. E só fora implementadas as seguintes funcionalidades
+ A atual versão do sistema só funciona com um de cada servidor. E só foram implementadas as seguintes funcionalidades
 
  <b> Funcionalidades do sistema </b>
  * Comunicação Multicast
