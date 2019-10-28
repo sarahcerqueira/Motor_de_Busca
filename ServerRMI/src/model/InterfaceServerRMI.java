@@ -18,6 +18,8 @@ public interface InterfaceServerRMI extends Remote {
 	public void addHistoric(String username,String date, String hour, Site site ) throws RemoteException;
 	public boolean userHasNotification(String username) throws RemoteException, IOException;
 	public void removeUserNotification(String username) throws RemoteException, IOException;
+	public boolean userIsAdmin(String username)throws RemoteException, IOException;
+	public String getUserNotification(String username)throws RemoteException, IOException;
 	
 	//Funcionalidades relacionadas ao administrador
 	public List<Entry<String, Integer>> getImportantPages() throws RemoteException, IOException;

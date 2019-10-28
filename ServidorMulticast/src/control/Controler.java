@@ -27,13 +27,10 @@ public class Controler {
 		String password = login[2].split(";")[1];
 		
 		if(ucBusca.login(username, password)) {
-			if(ucBusca.userIsAdmin(username)) 
-				return "login|registry;true|admin;true|";
-			
-			return "login|registry;true|admin;false|";
-			
+				return "login|registry;true|";
+						
 		}
-		return "login|false|";
+		return "login|registry;false|";
 		
 	}
 	
@@ -48,17 +45,30 @@ public class Controler {
 		
 		System.out.print(username +":"+ password);
 		
-		if(ucBusca.useRegitry(username, password)) {
-			if(ucBusca.userIsAdmin(username)) 
-				return "useRegistry|registry;true|admin;true|";
-			
-			return "useRegistry|registry;true|admin;false|";
+		if(ucBusca.useRegitry(username, password)) {			
+			return "useRegistry|registry;true|";
 		}
 		
 		return "useRegistry|registry;false|";
 
 		
 	}
+	
+	/** Verifica se um usuário é administrador.
+	 * 
+	 * @param registry	Vetor com o username do usuário.
+	 */
+	public String userIsAdmin(String[] request) {
+		String username = request[1].split(";")[1];
+		
+		if(ucBusca.userIsAdmin(username)) {
+			return "userIsAdmin|admin;true|";
+		}
+
+
+		return "userIsAdmin|admin;false|";
+	}
+
 
 	
 	/**Torna um usuário comum administrador.
@@ -155,6 +165,12 @@ public class Controler {
 		
 		return "userHasNotification|false|";
 	}
+	
+	public String getUserNotification(String[] request) {
+		String username = request[1].split(";")[1];
+		
+		return "getUserNotification|notification;"+ucBusca.getUserNotification(username)+"|";
+		}
 
 	/**Remove a notificação de um.
 	 * 	 
@@ -201,6 +217,9 @@ public class Controler {
 		return null;
 	}
 
+	
+
+	
 	
 
 

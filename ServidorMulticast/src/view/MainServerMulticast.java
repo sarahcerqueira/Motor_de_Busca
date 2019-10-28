@@ -40,6 +40,10 @@ public class MainServerMulticast {
 				case("changeUserPermission"):
 					answer = system.changeUserPermission(request);
 					break;
+					
+				case("userIsAdmin"):
+					answer = system.userIsAdmin(request);
+					break;
 				
 				case("getHistoric"):
 					answer = system.getHistoric(request);
@@ -51,6 +55,10 @@ public class MainServerMulticast {
 				
 				case("userHasNotification"):
 					answer = system.userHasNotification(request);
+					break;
+					
+				case("getUserNotification"):
+					answer = system.getUserNotification(request);
 					break;
 				
 				case("removeUserNotification"):
@@ -109,62 +117,6 @@ public class MainServerMulticast {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		/* Teste de ordenaçãao
-		HashMap<String, Integer> qtdAcess = new HashMap<String, Integer>();
-		
-	    qtdAcess.put("c", 50);
-		qtdAcess.put("a", 10);
-	    qtdAcess.put("b", 30);
-	    qtdAcess.put("d", 40);
-	    qtdAcess.put("e", 100);
-	    qtdAcess.put("f", 60);
-	    qtdAcess.put("g", 110);
-	    qtdAcess.put("h", 50);
-	    qtdAcess.put("i", 90);
-	    qtdAcess.put("k", 70);
-	    qtdAcess.put("L", 80);
-		
-		List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(qtdAcess.entrySet());
-		Collections.sort(list, new Comparator<Object>() {
-
-			@Override
-			public int compare(Object o1, Object o2) {
-				Entry<String, Integer> mapa1 =  (Entry<String, Integer>) o1;
-				Entry<String, Integer> mapa2 =  (Entry<String, Integer>) o2;
-				
-				return mapa1.getValue().compareTo(mapa2.getValue());
-			}});
-		
-		for(Entry<String, Integer> s: list) {
-			System.out.println(s.getKey() +":"+ s.getValue()+"\n");
-
-		}
-		
-		*/
-		
-		/* Teste Multicast
-		try {
-			Multicast serv = new Multicast();
-			
-			String mensagem = "Sou servidor 3 e entrei no grupo";
-			byte buf[] = new byte[1024];
-			
-			serv.sendPacket(mensagem.getBytes());
-			
-			while(true) {
-				mensagem = new String(serv.acceptPacket(buf));
-				System.out.print(mensagem+"\n");
-				
-			}
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-		
 
 	}
 

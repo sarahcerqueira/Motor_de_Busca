@@ -44,6 +44,18 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		
 	}
 
+	@Override
+	public boolean userIsAdmin(String username) throws RemoteException, IOException {
+		String request = "userIsAdmin|username;"+username + "|";
+		String answer = this.makeRequest(request);
+		
+		if(answer.split("\\|")[1].split(";")[1].equals("true")) {
+			return true;
+		}
+
+		return false;
+	}
+
 
 	public boolean changeUserPermission(String username) throws IOException {
 		String request = "changeUserPermission|username;"+username + "|";
@@ -85,6 +97,15 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public String getUserNotification(String username) throws RemoteException, IOException {
+		String request = "getUserNotification|username;"+username + "|";
+		String answer = this.makeRequest(request);
+		
+
+		return answer.split("\\|")[1].split(";")[1];
 	}
 
 
@@ -156,5 +177,10 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 
 	}
 
+
+	
+
+
+	
 
 }

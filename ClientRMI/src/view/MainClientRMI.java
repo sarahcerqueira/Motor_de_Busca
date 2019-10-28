@@ -3,6 +3,7 @@ package view;
 import java.io.IOException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
 import model.InterfaceServerRMI;
@@ -11,14 +12,14 @@ public class MainClientRMI {
 	
 	private static String opcao;
 	private static Scanner scanner;
-	//private static InterfaceServerRMI servidor;
+	private static InterfaceServerRMI servidor;
 
 	public static void main(String[] args) {
 		
 		MainClientRMI main = new MainClientRMI();
 		
 		try {
-			InterfaceServerRMI servidor = (InterfaceServerRMI) Naming.lookup("rmi://127.0.0.1/ServerRMI");
+			servidor = (InterfaceServerRMI) Naming.lookup("rmi://127.0.0.1/ServerRMI");
 			opcao = "0";
 			scanner = new Scanner(System.in);
 			String username, password;
@@ -47,7 +48,12 @@ public class MainClientRMI {
 				
 					if(servidor.login(username, password)){
 						System.out.println("\nBem-vindo ao UCBusca "+ username);
-						main.opcoesUsuario();
+						
+						if(servidor.userIsAdmin(username)) {
+							main.opcoesAdmin();
+						} else {
+							main.opcoesUsuario(username);}
+						
 					} else {
 						System.out.println("\nSenha ou usuario incorreto :(");
 						opcao = "0";
@@ -67,7 +73,12 @@ public class MainClientRMI {
 						
 						if(servidor.registerUser(username, password)) {
 							System.out.println("\nObrigada por se registrar no UCBusca *-* \n");
-							main.opcoesUsuario();							
+							
+							if(servidor.userIsAdmin(username)) {
+								main.opcoesAdmin();
+							} else {
+								main.opcoesUsuario(username);}
+							
 						}else{
 							System.out.println("\nNão foi possível cadastrar o username: "+ username+
 									" :( \nTente novamente com um username diferente.\n");
@@ -92,31 +103,115 @@ public class MainClientRMI {
 
 	}
 	
-	public void opcoesUsuario(){
+	public void opcoesUsuario(String username){
 		
-		System.out.println("Selecione 0 a qualquer momento para sair.\n"
-				+ "Escolha sua opção: \n"
-				+ "1 - Fazer busca \n"
-				+ "2 - Ver histórico de navegação \n"
-				+ "3 - Fazer busca\n");
+		try {
+			
+			if(servidor.userHasNotification(username)) {
+				System.out.println(servidor.getUserNotification(username));
+				servidor.removeUserNotification(username);
+			}
+			
+			while(true) {
+				
+				switch(opcao) {
+				case("0"):
+					return;
+				
+				case("1"):
+					break;
+				
+				case("2"):
+					break;
+				
+				default:
+					System.out.println("Selecione 0 a qualquer momento para sair.\n"
+							+ "Escolha sua opção: \n"
+							+ "1 - Fazer busca \n"
+							+ "2 - Ver histórico de navegação \n");
+				}
+				
+				opcao =	scanner.nextLine();
+
+			}
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		opcao =	scanner.nextLine();
 		
 	}
 	
 	public void opcoesAdmin() {
+		String username;
 		
-		System.out.println("Selecione 0 a qualquer momento para sair.\n"
-				+ "Escolha sua opção: \n"
-				+ "1 - Fazer busca \n"
-				+ "2 - Ver histórico de navegação \n"
-				+ "3 - Adicionar URL\n"
-				+ "4 - 10 páginas mais pesquisadas\n"
-				+ "5 - 10 pesquisas mais comuns\n"
-				+ "6 - Adicionar administrador\n"
-				+ "7 - Servidores Multicast Ativos\n");
+		while(true) {
+					
+					switch(opcao) {
+					case("0"):
+						return;
+					
+					case("1"):
+						break;
+					
+					case("2"):
+						break;
+					
+					case("3"):
+						break;
+					
+					case("4"):
+						break;
+					
+					case("5"):
+						break;
+					
+					case("6"):
+						System.out.println("***************************** ADICIONAR ADMINISTRADOR *****************************");
+						System.out.print("Digite o username: ");
+						username = scanner.nextLine();
+						
+						try {
+							if(servidor.changeUserPermission(username)) {
+								System.out.println("O usuário "+ username + " agora é um administrador\n");
+								
+							} else {
+								System.out.println("Erro o usuario "+ username+ " não existe\n");
+							}
+							
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						break;
+					
+					case("7"):
+						break;
+					
+					default:
+						System.out.println("Selecione 0 a qualquer momento para sair.\n"
+								+ "Escolha sua opção: \n"
+								+ "1 - Fazer busca \n"
+								+ "2 - Ver histórico de navegação \n"
+								+ "3 - Adicionar URL\n"
+								+ "4 - 10 páginas mais pesquisadas\n"
+								+ "5 - 10 pesquisas mais comuns\n"
+								+ "6 - Adicionar administrador\n"
+								+ "7 - Servidores Multicast Ativos\n");
+					}
+					
+					opcao =	scanner.nextLine();
 		
-		opcao =	scanner.nextLine();
+				}
+		
+		
 	}
 
 
