@@ -37,7 +37,7 @@ Passos para compilação:
  <b> Funcionalidades de todo usuário</b>
  * Registro
  * Login
- * Receber notificação quando se muda a permissão do usuário
+ * Receber notificação quando se muda a permissão do usuário (essa notificação só é mostrada no primeiro login).
 
  <b> Funcionalidades do administrador </b>
  * Mudar permissão de usuário
