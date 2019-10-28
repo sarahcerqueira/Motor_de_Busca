@@ -1,5 +1,8 @@
 # Motor_de_Busca
 
+Para melhor visualização do README.md, link do Github:</br>
+https://github.com/sarahecomp/Motor_de_Busca
+
 ## Compilação 
 Passos para compilação:
 
