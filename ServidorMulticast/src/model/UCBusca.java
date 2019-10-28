@@ -59,25 +59,30 @@ public class UCBusca {
 		}
 		
 		User user = new User(username, password);
+		
+		if(this.users.isEmpty()) {
+			user.setAdmin(true);
+		}
+		
 		this.users.put(username, user);
 		return true;
 	}
 	
-	/** Modifica a permissão de acesso de um usuário. Se a permissão for verdadeira o usuário
-	 * se torna um administrador.
+	/** Torna um usuário administrador.
 	 * 
 	 * @param username 		Identificador do usuário.
-	 * @param permission	Permissão do usuário.
 	 * @return				Retorna falso se o usuário não existir.
 	 */
-	public boolean changeUserPermission(String username, boolean permission) {
+	public boolean changeUserPermission(String username) {
 		
 		if(!users.containsKey(username)) {
 			return false;	
 		} 
 		
+	
+		this.addNotification(username, "Você agora é um administrador");		
 		User user = users.get(username);
-		user.setAdmin(permission);
+		user.setAdmin(true);
 		return true;
 	}
 	
@@ -169,10 +174,25 @@ public class UCBusca {
 		}
 	}
 	
+	/**Verifica se um usuário é administrador.
+	 * 
+	 * @param username 	Identificador do usuário.
+	 * @return			Retornar verdadeiro se o usuário for administrador.
+	 */
+	public boolean userIsAdmin(String username) {
+		
+		if(users.containsKey(username)) {
+			User user = users.get(username);
+			return user.isAdmin();
+		}
+		
+		return false;
+	}
+	
 	//Funcionalidade de administrador
 	/** Indexa urls no site
 	 */
-	public void indexURL() {}
+	public void indexURL(String url) {}
 	
 	/**Retorna as 10 páginas mais acessadas.
 	 */
@@ -232,6 +252,7 @@ public class UCBusca {
 	/** Retornas os servidores Multicast ativos.
 	 */
 	public void getServerMulticastActive(){}
+	
 	
 	//Funcionalidades do sistema
 	public void search (String text){}

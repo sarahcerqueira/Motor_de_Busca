@@ -13,11 +13,9 @@ import model.InterfaceServerRMI;
 
 public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI {
 	
-	private ArrayList<String> usuarios; 
 	private ClienteUDP serverComunication;
 
 	public ServerRMI() throws RemoteException, SocketException, UnknownHostException {
-		usuarios = new ArrayList<String>();
 		serverComunication = new  ClienteUDP();
 	}
 
@@ -37,9 +35,7 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 	public boolean registerUser(String username, String password) throws IOException {
 		String request = "useRegistry|username;"+username + "|password;"+password+"|";
 		String answer = this.makeRequest(request);
-		
-		System.out.print(answer.split("\\|")[1]);
-		
+				
 		if(answer.split("\\|")[1].equals("true")) {
 			return true;
 		}
@@ -49,65 +45,78 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 	}
 
 
-	@Override
-	public boolean changeUserPermission(String username, boolean permission) throws RemoteException {
-		// TODO Auto-generated method stub
+	public boolean changeUserPermission(String username) throws IOException {
+		String request = "changeUserPermission|username;"+username + "|";
+		String answer = this.makeRequest(request);
+		
+		if(answer.split("\\|")[1].split(";")[1].equals("true")) {
+			return true;
+		}
+
 		return false;
 	}
 
 
 	@Override
-	public ArrayList<Story> getHistoric(String username) throws RemoteException {
-		// TODO Auto-generated method stub
+	public ArrayList<Story> getHistoric(String username) throws IOException {
+		String request = "getHistoric|username;"+username + "|";
+		String answer = this.makeRequest(request);
+		int size = Integer.parseInt(answer.split("\\|")[1].split(";")[1]);
+		String [] historic = answer.split("|");
+		
+		
 		return null;
 	}
 
 
 	@Override
 	public void addHistoric(String username, String date, String hour, Site site) throws RemoteException {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 
 	@Override
-	public void addNotification(String username, String notification) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
+	public boolean userHasNotification(String username) throws IOException {
+		String request = "userHasNotification|username;"+username + "|";
+		String answer = this.makeRequest(request);
 
-
-	@Override
-	public boolean userHasNotification(String username) throws RemoteException {
-		// TODO Auto-generated method stub
+		if(answer.split("\\|")[1].equals("true")) {
+			return true;
+		}
 		return false;
 	}
 
 
 	@Override
-	public void removeUserNotification(String username) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	public void removeUserNotification(String username) throws IOException {
+		String request = "removeUserNotification|username;"+username + "|";
+		makeRequestNoAnswer(request);
 	}
 
 
 	@Override
-	public void indexURL() throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	public void indexURL(String url) throws IOException {
+		String request = "indexURL|url;"+url+ "|";
+		makeRequestNoAnswer(request);
+
 	}
 
 
 	@Override
-	public List<Entry<String, Integer>> getImportantPages() throws RemoteException {
-		// TODO Auto-generated method stub
+	public List<Entry<String, Integer>> getImportantPages() throws IOException {
+		String request = "getImportantPages|";
+		String answer = this.makeRequest(request);
+
 		return null;
 	}
 
 
 	@Override
-	public List<Entry<String, Integer>> getImportantSearch() throws RemoteException {
-		// TODO Auto-generated method stub
+	public List<Entry<String, Integer>> getImportantSearch() throws IOException {
+		String request = "getImportantSearch|";
+		String answer = this.makeRequest(request);
+
 		return null;
 	}
 
@@ -129,6 +138,16 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 
 	}
 	
+	/** Envia uma solicitação aos sevidores multicast.
+	 * 
+	 * @param request		Mensagem de solicitação de acordo com o protocolo.
+	 * @throws IOException	Exceção lançada caso haja algum problema ao enviar a solicitação. 	
+	 */
+	public void makeRequestNoAnswer(String request) throws IOException {
+		serverComunication.sendPacket(request.getBytes());
+
+	}
+	
 	public String waitAnswer() throws IOException {
 		
 		byte[] buf = new byte[1024];
@@ -136,4 +155,6 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		return new String(buf);
 
 	}
+
+
 }

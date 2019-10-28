@@ -1,12 +1,13 @@
 package view;
 
 import java.io.IOException;
-import java.util.Scanner;
-
 import control.Controler;
 import model.Multicast;
 import model.PacketReceived;
 
+/** A classe MainServerMulticast faz a interface entre os pacotes UDP's recebidos e o sistema
+ * que armazena as informações.
+ */
 public class MainServerMulticast {
 
 	public static void main(String[] args) {
@@ -35,6 +36,61 @@ public class MainServerMulticast {
 				case("useRegistry"):
 					answer = system.useRegistry(request);
 				break;
+				
+				case("changeUserPermission"):
+					answer = system.changeUserPermission(request);
+					break;
+				
+				case("getHistoric"):
+					answer = system.getHistoric(request);
+					break;
+				
+				case("addHistoric"):
+					system.addHistoric(request);
+					break;
+				
+				case("userHasNotification"):
+					answer = system.userHasNotification(request);
+					break;
+				
+				case("removeUserNotification"):
+					system.removeUserNotification(request);
+					answer = null;
+					break;
+				
+				case("indexURL"):
+					system.indexURL(request);
+					answer= null;
+					break;
+				
+				case("getImportantPages"):
+					answer = system.getImportantPages();
+					break;
+				
+				case("getImportantSearch"):
+					answer = system.getImportantSearch();
+					break;
+				
+				case("getServerMulticastActive"):
+					answer = system.getServerMulticastActive(request);
+					break;
+				
+				case("userSync"):
+					answer = system.userSync(request);
+					break;
+				
+				case("indexSync"):
+					answer = system.indexSync(request);
+					break;
+				
+				case("qtdAcessSync"):
+					answer = system.qtdAcessSync(request);
+					break;
+				
+				case("qtdSearchSync"):
+					answer = system.qtdSearchSync(request);
+					break;
+				
 				
 				}
 				
