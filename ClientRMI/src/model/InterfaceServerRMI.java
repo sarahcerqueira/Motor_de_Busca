@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-
+/** Interface RMI do servidor.
+ */
 public interface InterfaceServerRMI extends Remote {
 	
 	//Funionalidades relacionadas ao usuario
@@ -29,5 +30,6 @@ public interface InterfaceServerRMI extends Remote {
 	
 	
 }
+
 
 

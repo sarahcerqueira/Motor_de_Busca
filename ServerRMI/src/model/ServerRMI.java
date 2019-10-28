@@ -11,6 +11,10 @@ import java.util.Map.Entry;
 
 import model.InterfaceServerRMI;
 
+/** Implementa os métodos remotos do servidor RMI. Cada método é uma solicitação ao servidor multicast.
+ * Na implementação dos métodos o servidor RMI converte os dados de entrada para o protocolo do sistema e envia
+ * via pacote UDP para o servidor multicast.
+ */
 public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI {
 	
 	private ClienteUDP serverComunication;

@@ -25,7 +25,8 @@ Passos para compilação:
 
 8. Primeiro execute o ServidorMulticast
 9. Segundo execute o ServerRMI
-10. E por fim  execute o ClientRMI
+10. E por fim  execute o ClientRMI. Caso a excecução seja feita em máquinas diferentes (servidores e clientes em máquinas diferentes) é necessário modificar o ip do servidor RMI no CLientRMI.
+O arquivo está no pacote "view", e o arquivo é "MainClientRMI.java". Substituir o ip na linha 25.
 
 ## Explicação do funcionamento do sistema
 

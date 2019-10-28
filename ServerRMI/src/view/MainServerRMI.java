@@ -11,6 +11,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+/** Classe principal do servidor RMI. Permite que clientes RMI acessem o servidor.
+ */
 public class MainServerRMI {
 
 	public static void main(String[] args) {

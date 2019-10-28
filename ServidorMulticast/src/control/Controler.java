@@ -175,7 +175,7 @@ public class Controler {
 
 	/**Remove a notificação de um.
 	 * 	 
-	 *@param request	Vetor com o username do usuário.
+	 *@param request Vetor com o username do usuário.
 	 * 
 	 */
 	public void removeUserNotification(String[] request) {

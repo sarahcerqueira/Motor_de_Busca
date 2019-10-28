@@ -8,6 +8,9 @@ import java.util.Scanner;
 
 import model.InterfaceServerRMI;
 
+/** Classe que implementa o método principal do Cliente RMI. Faz a conexão com o servidor RMI, e a interface entre usuário sistema.
+ * 
+ */
 public class MainClientRMI {
 	
 	private static String opcao;

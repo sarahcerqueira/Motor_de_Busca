@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+/** Comunicação do servidor RMI com os servidores Multicast, através do protocolo UDP.
+ */
 public class ClienteUDP {
 
 	private static String ip_server = "230.0.0.0";
