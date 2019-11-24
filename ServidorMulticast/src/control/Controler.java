@@ -1,5 +1,6 @@
 package control;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -109,8 +110,9 @@ public class Controler {
 	/**Indexa uma url ao motor de busca
 	 * 
 	 * @param request	Vetor com o url que será indexado.
+	 * @throws IOException 
 	 */
-	public void indexURL(String[] request) {
+	public void indexURL(String[] request) throws IOException {
 		ucBusca.indexURL(request[1].split(";")[1]);
 		
 	}

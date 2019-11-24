@@ -1,29 +1,32 @@
 package model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
+import org.jsoup.*;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /** UCBusca armazena todos os dados do sistema em tempo de compilação. Todas as funcionalidades
  * do sistema estão disponíveis nessa classe.
  */
 public class UCBusca {
 	private HashMap<String, User> users;
-	private HashMap<String, ArrayList<Site>> index;
-	private HashMap<String, Integer> qtdAcess; //quantidade de acessos por url <url, quantidade de acessos>
+	private HashMap<String, ArrayList<String>> index;
+	private HashMap<String, Site> sites; //Armazenamento de sites indexados
 	private HashMap<String, Integer> qtdSearch; //String de pesquisa, e a quantidade de vezes que ela foi pesquisada
 	
 	/** Inicia as estruturas de dados que armazenam os usuários e os sites.
 	 */
 	public UCBusca() {
 		users = new HashMap<String, User>();
-		index = new HashMap<String, ArrayList<Site>>();
-		qtdAcess = new HashMap<String, Integer>();
+		index = new HashMap<String, ArrayList<String>>();
 		qtdSearch  = new HashMap<String, Integer>();
 	}
 	
@@ -190,9 +193,91 @@ public class UCBusca {
 	}
 	
 	//Funcionalidade de administrador
-	/** Indexa urls no site
+
+	/** Indexa urls ao software.
+	 * 
+	 * @param url 			URL que será indexado.
+	 * @throws IOException 
 	 */
-	public void indexURL(String url) {}
+	public void indexURL(String url) throws IOException{
+		this.indexURL(url, null, 0);
+		
+	}
+	
+	
+	/** Indexa urls ao software
+	 * 
+	 * @param url 			URL que será indexado.
+	 * @param urlPrevious	URL que tem link para o site atual.
+	 * @param level			Refere-se à profundidade na qual está a recussão. 
+	 * @throws IOException 
+	 */
+	private void indexURL(String url, String urlPrevious, int level) throws IOException {
+		Site site; Document doc;
+		
+		//Se o site já estiver indexado, adiciona ao site os sites que fazem ligação para ele.
+		if(this.sites.containsKey(url) && level != 0) {
+			site = sites.get(url);
+			site.addPagesLinks(urlPrevious);
+			return;
+		}
+		
+		//Se a indexação estiver em nível 3, para de indexar.
+		if(level > 3) {
+			return;
+		}
+		
+		doc = Jsoup.connect(url).get();
+		site = new Site(url, doc.title(), doc.text());
+		this.invertedIndex(doc.text(), url);
+		
+		//Em nível 0 não há urlPrevious
+		if(level > 0)
+			site.addPagesLinks(urlPrevious);
+		
+		Elements links = doc.select("a[href]");
+		
+		for (Element link : links) {
+			
+            if (link.attr("href").startsWith("#") || !link.attr("href").startsWith("http")) {
+                continue;
+            }
+            indexURL(link.attr("href"), url, level++);
+
+        }
+	
+	}
+	
+	/**Gera o index invertido para cada palavra do texto nos sites.
+	 * 
+	 * @param text		Texto do site.
+	 * @param url		Url a qual pertence o texto.
+	 */
+	private void invertedIndex(String text, String url) {
+		String[] words = text.split(" |.|:|?|\n|\t|;|\r"); //Quebra o texto do site em palavras
+		ArrayList<String> array;
+		
+		//Para cada palavra que há no texto
+		for(String word: words) {
+			
+			//Se a palavra já está no index
+			if(index.containsKey(word)) {
+				array = index.get(word);
+				
+				if(!array.contains(url))
+					array.add(url);
+				
+			//Senão adiciona
+			} else {
+				array = new ArrayList<String>();
+				array.add(url);
+				index.put(word, array);
+			}
+		}
+	}
+	
+
+	
 	
 	/**Retorna as 10 páginas mais acessadas.
 	 */
