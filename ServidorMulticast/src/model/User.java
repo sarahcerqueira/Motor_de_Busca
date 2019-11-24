@@ -84,11 +84,11 @@ public class User {
 	 * 
 	 * @param data 		Data de acesso ao site.
 	 * @param hora		Hora de acesso ao site.
-	 * @param site		Instancia Site com as informações do site acessado.
+	 * @param url		Url do site visitado.
 	 */
-	public void addStory(String date, String hour, Site site){
-		this.checkIfUrlExit(site);
-		this.historic.add(new Story(date, hour, site));
+	public void addStory(String date, String hour, String url){
+		this.checkIfUrlExit(url);
+		this.historic.add(new Story(date, hour, url));
 		
 	}
 	
@@ -98,12 +98,12 @@ public class User {
 	 * 
 	 * @param site 	Instancia do site.
 	 */
-	private void checkIfUrlExit(Site site) {
+	private void checkIfUrlExit(String url) {
 		int tam = this.historic.size();
 		
 		for(int i = 0; i<tam; i++) {
 			
-			if(this.historic.get(i).getSite().getUrl().equals(site.getUrl())){
+			if(this.historic.get(i).getUrl().equals(url)){
 				this.historic.remove(i);
 				break;
 			}

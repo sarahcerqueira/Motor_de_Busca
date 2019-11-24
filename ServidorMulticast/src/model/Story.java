@@ -7,18 +7,18 @@ import java.util.Date;
 public class Story {
 	private String date;
 	private String hour;
-	private Site site;
+	private String url;
 	
 	/**Configura as informações de uma historico.
 	 * 
 	 * @param date	Data em que o usuário acessou o site.
 	 * @param hour	Hora em que o usuário acessou o site.
-	 * @param site	Site que foi acessado.
+	 * @param url	Url que foi acessado.
 	 */
-	public Story(String date, String hour, Site site) {
+	public Story(String date, String hour, String url) {
 		this.date = date;
 		this.hour = hour;
-		this.site = site;
+		this.url = url;
 		
 	}
 
@@ -39,12 +39,12 @@ public class Story {
 	}
 	
 	
-	/**Retorna uma instancia do site que foi visitado.
+	/**Retorna a url do site que foi visitado.
 	 * 
-	 * @return Retorna uma instancia do tipo Site, com as informações do site visitado.
+	 * @return Url do site visitado.
 	 */
-	public Site getSite() {
-		return site;
+	public String getUrl() {
+		return url;
 	}
 	
 	

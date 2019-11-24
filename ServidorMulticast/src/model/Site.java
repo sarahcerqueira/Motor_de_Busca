@@ -5,12 +5,13 @@ import java.util.ArrayList;
 /** Guarda as informações necessárias de um site.
  * 
  */
-public class Site {
+public class Site implements Comparable{
 	private String url;
 	private String page_title;
 	private String text;
 	private ArrayList<String> pagesLinks;
 	private int numAcess;
+
 	
 	/** Define os dados relacionados a um site.
 	 * 
@@ -86,6 +87,14 @@ public class Site {
 	 */
 	public ArrayList<String> getPagesLinks(){
 		return this.pagesLinks;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		Site s = (Site) o;
+		Integer i = s.getNumAcess();
+		
+		return i.compareTo(this.numAcess);
 	}
 	
 

@@ -109,13 +109,13 @@ public class UCBusca {
 	 * @param username		Identificador do usuário.
 	 * @param date			Data de acesso
 	 * @param hour			Hora do acesso
-	 * @param site			O site que foi acessado.
+	 * @param url			O site que foi acessado.
 	 */
-	public void addHistoric(String username,String date, String hour, Site site ) {
+	public void addHistoric(String username,String date, String hour, String url ) {
 		
 		if(users.containsKey(username)) {
 			User user = users.get(username);
-			user.addStory(date, hour, site);
+			user.addStory(date, hour, url);
 		}
 		
 	}
@@ -281,20 +281,23 @@ public class UCBusca {
 	
 	/**Retorna as 10 páginas mais acessadas.
 	 */
-	public List<Entry<String, Integer>> getImportantPages(){
-		List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(this.qtdAcess.entrySet());
+	public List<Entry<String, Site>> getImportantPages(){
+		List<Entry<String, Site>> list = new LinkedList<Entry<String, Site>>(this.sites.entrySet());
+		
+		//Ordena a lista pelo número de acesso dos sites
 		Collections.sort(list, new Comparator<Object>() {
 
 			@Override
 			public int compare(Object o1, Object o2) {
-				Entry<String, Integer> mapa1 =  (Entry<String, Integer>) o1;
-				Entry<String, Integer> mapa2 =  (Entry<String, Integer>) o2;
+				Entry<String, Site> mapa1 =  (Entry<String, Site>) o1;
+				Entry<String, Site> mapa2 =  (Entry<String, Site>) o2;
 				
-				return mapa1.getValue().compareTo(mapa2.getValue());
+				return new Integer(mapa1.getValue().getNumAcess()).compareTo(new Integer (mapa2.getValue().getNumAcess()));
 			}});
 		
+		//Pega somente os 10 primeiros sites
 		if(list.size()> 10) {
-			List<Entry<String, Integer>> result = new LinkedList<Entry<String, Integer>>();
+			List<Entry<String, Site>> result = new LinkedList<Entry<String, Site>>();
 			
 			for(int i =0; i<10; i++) {
 				result.add(list.get(i));
@@ -334,34 +337,101 @@ public class UCBusca {
        		
 	}
 	
-	/** Retornas os servidores Multicast ativos.
-	 */
-	public void getServerMulticastActive(){}
-	
-	
+
 	//Funcionalidades do sistema
-	public void search (String text){}
 	
-	
-	//Manutenção do sistema
-	/**Sinconiza a lista de usuário. Quando um novo usuário é cadastro, essa sincroização envia para
-	 * os outros servidores Multicast essa atualização, para que todos tenham os mesmos usuários 
-	 * cadastrados.
+	/**Busca sites a partir de uma string.
+	 * 
+	 * @param text		Texto de Busca
+	 * @return			Retorna uma lista com os sites em ordem de importância.
+	 * 
 	 * 
 	 */
-	public void userSync() {}
+	public ArrayList<Site> search (String text){
+		
+		this.addQtdSearch(text);
+		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<ArrayList<String>> conjSites = new ArrayList<ArrayList<String>>();
+		String[] words = text.split(" |.|:|?|\n|\t|;|\r");
+		ArrayList<String> copy;
+		
+		//Pega todos os arrays de sites relacionados a todas as palavras da pesquisa
+		for(String word: words) {
+			if(index.containsKey(word)) {
+				copy = new ArrayList<String>();
+				copy.addAll(index.get(word));
+				conjSites.add(copy);}
+		}
+		
+		//Se está vazio não existe resultados para essa pesquisa
+		if(conjSites.isEmpty())
+			return null;
+		
+		//Se é maior que 1 é necessario pegar os sites incomuns
+		else if(conjSites.size()> 1) {
+			copy = conjSites.get(0);
+			int size = conjSites.size();
+			int sizeCopy = copy.size();
+			boolean exist = true;
+		
+			
+			for(int i=0; i<sizeCopy; i++) {	//Para cada site da primeira lista
+				String url = copy.get(i);	//Pega o url do site
+				
+				for(int j=0; j<size; j++) {	//Verifica se contém nos outros arrays
+					if(!conjSites.get(j).contains(url)) {
+						exist = false;
+					}
+				}
+				//Ao termina o segundo loop  e exist ainda for verdadeiro significa que o url faz parte da intersecção
+				if(exist) {
+					result.add(url);
+				}else 
+					exist = true;
+			}			
+		
+		}
+		
+		return this.getSites(result);
+		
+	}	
+		
 	
-	/** Sincroniza as urls cadastradas com os outros servidores multicast.
+	/** A partir e uma lista de urls, retorna todas as instância de sites.
+	 * 
+	 * @param urls 		Lista de urls.
+	 * @return			Lista de Sites ordenados por importância.
 	 */
-	public void indexSync() {}
+	private ArrayList<Site> getSites(ArrayList<String> urls){
+		ArrayList<Site> site = new ArrayList<Site>();
+		int size = urls.size();
+		
+		for(int i=0; i<size; i++) {
+			Site s = this.sites.get(urls.get(i));
+			site.add(s);
+		}
+		
+		Collections.sort(site);
+		
+		return site;
+	}
 	
-	/** Sincroniza a quantidade de acesso por site com os outros servidores multicast.
+	/**Incrementa a quantidade de vezes que aquele texto foi pesquisado.
+	 * 
+	 * @param text	Texto que foi pesquisado.
 	 */
-	public void qtdAcessSync() {}
+	private void addQtdSearch(String text) {
+		
+		if(this.qtdSearch.containsKey(text)) {
+			Integer i = this.qtdSearch.get(text);
+			this.qtdSearch.replace(text, i++);
+			
+		}else{
+			this.qtdSearch.put(text, 1);
+		}
+		
+	}
 	
-	/** Sincroniza a quantidade de vezes que uma palavra foi pesquisada.
-	 */
-	public void qtdSearchSync() {}
-	
+
 
 }
