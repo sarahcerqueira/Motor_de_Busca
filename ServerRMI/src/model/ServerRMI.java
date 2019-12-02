@@ -6,8 +6,7 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
+
 
 import model.InterfaceServerRMI;
 
@@ -74,20 +73,31 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 
 
 	@Override
-	public ArrayList<Story> getHistoric(String username) throws IOException {
+	public ArrayList<String> getHistoric(String username) throws IOException {
 		String request = "getHistoric|username;"+username + "|";
-		String answer = this.makeRequest(request);
-		int size = Integer.parseInt(answer.split("\\|")[1].split(";")[1]);
-		String [] historic = answer.split("|");
+		String[] answer = this.makeRequest(request).split("\\|");
+		ArrayList<String> historic = new ArrayList<String>();
 		
+		if(answer.length < 3) {
+			return null;
+		}
 		
-		return null;
+		for(int i=3; i<answer.length;i++) {
+			String time = "Data: "+answer[i].split(";")[0]+" Hora: "+answer[i].split(";")[1];
+			String url = answer[i].split(";")[2];
+			historic.add(time);
+			historic.add(url);
+			
+		}
+		
+		return historic;
 	}
 
 
 	@Override
-	public void addHistoric(String username, String date, String hour, Site site) throws RemoteException {
-		
+	public void addHistoric(String username, String date, String hour, String url) throws IOException {
+		String request = "addHistoric|username;"+username + "|date;"+date+"|hour;"+hour+"|url;"+url+"|";
+		this.makeRequestNoAnswer(request);
 		
 	}
 
@@ -129,28 +139,72 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 
 
 	@Override
-	public List<Entry<String, Integer>> getImportantPages() throws IOException {
+	public ArrayList<String> getImportantPages() throws IOException {
 		String request = "getImportantPages|";
-		String answer = this.makeRequest(request);
-
-		return null;
-	}
-
-
-	@Override
-	public List<Entry<String, Integer>> getImportantSearch() throws IOException {
-		String request = "getImportantSearch|";
-		String answer = this.makeRequest(request);
-
-		return null;
-	}
-
-
-	@Override
-	public void getServerMulticastActive() throws RemoteException {
-		// TODO Auto-generated method stub
+		String[] answer = this.makeRequest(request).split("\\|");
+		ArrayList<String> importantPages = new ArrayList<String>();
 		
+		if(answer.length < 3) {
+			return null;
+		}
+		
+		for(int i=3; i<answer.length; i++) {
+			String url = answer[i].split(";")[0];
+			String numAcesso = answer[i].split(";")[1];
+			
+			importantPages.add(url);
+			importantPages.add(numAcesso);
+		}
+		
+		return importantPages;
 	}
+
+
+	@Override
+	public ArrayList<String> getImportantSearch() throws IOException {
+		String request = "getImportantSearch|";
+		String[] answer = this.makeRequest(request).split("\\|");
+		ArrayList<String> importantSearch = new ArrayList<String>();
+		
+		if(answer.length < 3) {
+			return null;
+		}
+		
+		for(int i=3; i<answer.length; i++) {
+			String search = answer[i].split(";")[0];
+			String numAcesso = answer[i].split(";")[1];
+			
+			importantSearch.add(search);
+			importantSearch.add(numAcesso);
+		}
+		
+
+		return importantSearch;
+	}
+	
+	@Override
+	public ArrayList<String> search(String search) throws IOException {
+		String request = "search|"+search+"|";
+		String[] answer = this.makeRequest(request).split("\\|");
+		ArrayList<String> result = new ArrayList<String>();
+		
+		
+		for(int i=3; i<answer.length; i++) {
+			String title = answer[i].split(";")[0];
+			String url = answer[i].split(";")[1];
+			String text = answer[i].split(";")[2];
+
+			
+			result.add(title);
+			result.add(url);
+			result.add(text);
+
+		}
+		
+
+		return result;
+	}
+
 	
 	/** Envia uma solicitação aos sevidores multicast.
 	 * 
@@ -174,12 +228,18 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 	}
 	
 	public String waitAnswer() throws IOException {
-		
 		byte[] buf = new byte[1024];
 		buf = serverComunication.acceptPacket(buf);
 		return new String(buf);
 
 	}
+
+
+	
+
+
+
+	
 
 
 	

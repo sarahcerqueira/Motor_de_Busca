@@ -24,7 +24,8 @@ public class MainServerMulticast {
 				//Aguarda a chegada de pacotes
 				PacketReceived packet = multicast.acceptPacket(new byte[1024]);
 				String [] request = new String(packet.getData()).split("\\|");
-				System.out.print(request[0] + ":"+ request[1]+":"+ request[2]);
+				
+				System.out.printf(request[0] + ":"+ request[1]+":"+ request[2]);
 				answer = null;
 				
 				//Verifica o tipo de solicitação e manda para o controler
@@ -78,26 +79,11 @@ public class MainServerMulticast {
 				case("getImportantSearch"):
 					answer = system.getImportantSearch();
 					break;
-				
-				case("getServerMulticastActive"):
-					answer = system.getServerMulticastActive(request);
+					
+				case("search"):
+					answer = system.search(request);
 					break;
 				
-				case("userSync"):
-					answer = system.userSync(request);
-					break;
-				
-				case("indexSync"):
-					answer = system.indexSync(request);
-					break;
-				
-				case("qtdAcessSync"):
-					answer = system.qtdAcessSync(request);
-					break;
-				
-				case("qtdSearchSync"):
-					answer = system.qtdSearchSync(request);
-					break;
 				}
 				
 				//Se for necessário enviar alguma resposta

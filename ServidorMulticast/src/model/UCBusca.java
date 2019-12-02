@@ -254,11 +254,15 @@ public class UCBusca {
 	 * @param url		Url a qual pertence o texto.
 	 */
 	private void invertedIndex(String text, String url) {
-		String[] words = text.split(" |.|:|?|\n|\t|;|\r"); //Quebra o texto do site em palavras
+		String[] words = text.split(" |.|:|?|\n|\t|;|\r|“|”|(|)|{|}|\\\\[\\\\]|<|>|+|!"); //Quebra o texto do site em palavras
 		ArrayList<String> array;
 		
 		//Para cada palavra que há no texto
 		for(String word: words) {
+			
+			if ("".equals(word)) {
+                continue;
+            }
 			
 			//Se a palavra já está no index
 			if(index.containsKey(word)) {
@@ -350,9 +354,13 @@ public class UCBusca {
 	public ArrayList<Site> search (String text){
 		
 		this.addQtdSearch(text);
+		
+		if(index.isEmpty())
+			return null;
+		
 		ArrayList<String> result = new ArrayList<String>();
 		ArrayList<ArrayList<String>> conjSites = new ArrayList<ArrayList<String>>();
-		String[] words = text.split(" |.|:|?|\n|\t|;|\r");
+		String[] words = text.split("[ |.|:|?|\n|\t|;|\r|“|”|(|)|{|}|\\\\[\\\\]|<|>|]+");
 		ArrayList<String> copy;
 		
 		//Pega todos os arrays de sites relacionados a todas as palavras da pesquisa
@@ -365,7 +373,8 @@ public class UCBusca {
 		
 		//Se está vazio não existe resultados para essa pesquisa
 		if(conjSites.isEmpty())
-			return null;
+					return null;
+		
 		
 		//Se é maior que 1 é necessario pegar os sites incomuns
 		else if(conjSites.size()> 1) {

@@ -1,7 +1,7 @@
 package view;
 
+import model.InterfaceServerRMI;
 import model.ServerRMI;
-
 import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -20,10 +20,8 @@ public class MainServerRMI {
          try {
 			 try {
 				 
-				 
-			    	Registry registry = LocateRegistry.getRegistry();
-			    	
-					registry.bind("ServerRMI", new ServerRMI());
+				 	InterfaceServerRMI s = new ServerRMI();
+					LocateRegistry.createRegistry(1099).rebind("server", s);
 					System.out.println("Servidor RMI ativo");
 				 
 			    	
@@ -35,9 +33,6 @@ public class MainServerRMI {
 				e.printStackTrace();
 			}
 			 
-		} catch (AlreadyBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

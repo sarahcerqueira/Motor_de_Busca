@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+
+import model.Site;
 import model.Story;
 import model.UCBusca;
 
@@ -101,7 +103,7 @@ public class Controler {
 		
 		for(int i =0; i<size; i++) {
 			Story s = story.get(i);
-			result = result + s.getDate()+";"+s.getHour()+";"+s.getSite().getUrl()+"|";
+			result = result + s.getDate()+";"+s.getHour()+";"+s.getUrl()+"|";
 		}
 		
 		return result;
@@ -122,13 +124,13 @@ public class Controler {
 	 * @return			Retorna uma string no formato do protocolo udp.
 	 */
 	public String getImportantPages() {
-		List<Entry<String, Integer>> list = ucBusca.getImportantPages();
+		List<Entry<String, Site>> list = ucBusca.getImportantPages();
 		int size = list.size();
 		
-		String result = "getImportantPages|size;"+size+"|";
+		String result = "getImportantPages|size;"+size+"|url;numero de acesso|";
 		
 		for(int i=0; i<size; i++) {
-			result = result + list.get(i).getKey()+"|";
+			result = result + list.get(i).getValue().getUrl()+";"+list.get(i).getValue().getNumAcess()+"|";
 		}
 
 		
@@ -143,10 +145,10 @@ public class Controler {
 		List<Entry<String, Integer>> list = ucBusca.getImportantSearch();
 		int size = list.size();
 		
-		String result = "getImportantSearch|size;"+size+"|";
+		String result = "getImportantSearch|size;"+size+"|pesquisa;numero de acesso|";
 		
 		for(int i=0; i<size; i++) {
-			result = result + list.get(i).getKey()+"|";
+			result = result + list.get(i).getKey()+";"+list.get(i).getValue()+"|";
 		}
 
 		
@@ -168,14 +170,19 @@ public class Controler {
 		return "userHasNotification|false|";
 	}
 	
-	/**/
+	/** Retorna a notificação de um usuário.
+	 * 
+	 * @param 	Vetor com o nome do usuário.
+	 * @return	Retorna a notificação.
+	 */
 	public String getUserNotification(String[] request) {
 		String username = request[1].split(";")[1];
 		
 		return "getUserNotification|notification;"+ucBusca.getUserNotification(username)+"|";
 		}
+	
 
-	/**Remove a notificação de um.
+	/**Remove a notificação de um usuário.
 	 * 	 
 	 *@param request Vetor com o username do usuário.
 	 * 
@@ -187,39 +194,36 @@ public class Controler {
 	}
 
 	public void addHistoric(String[] request) {
-		// TODO Auto-generated method stub
+		String username = request[1].split(";")[1];
+		String date = request[2].split(";")[1];
+		String hour = request[3].split(";")[1];
+		String url = request[4].split(";")[1];
 		
+		ucBusca.addHistoric(username, date, hour, url);
 	}
 	
-	public String getServerMulticastActive(String[] request) {
-		// TODO Auto-generated method stub
-		return null;
+	public String search(String[] request) {
+		System.out.print(request[1]);
+		String text = request[1];
+		ArrayList<Site> sites = ucBusca.search(text);
+		String result;
+		
+		if(sites != null) {
+			 result = "search|size;"+sites.size()+"|";
+			
+			for(int i=0; i<sites.size(); i++) {
+				result = result+"|"+ sites.get(i).getPage_title()+";"+sites.get(i).getUrl()+";"+sites.get(i).getText()+"|";
+			}
+		}else {
+			 result = "search|size;0|";
+		}
+		
+		
+		
+		
+		return result;
+		
 	}
-
-
-	public String userSync(String[] request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public String qtdAcessSync(String[] request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public String qtdSearchSync(String[] request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public String indexSync(String[] request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
 
 	
