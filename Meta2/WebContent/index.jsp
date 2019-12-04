@@ -5,10 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Meta_2</title>
+<title>teste</title>
 </head>
 <body>
-	<s:form action="login" method="post">
+	<s:form action="teste" method="post">
 		<s:text name="Username:" />
 		<s:textfield name="username" /><br>
 		<s:text name="Password:" />

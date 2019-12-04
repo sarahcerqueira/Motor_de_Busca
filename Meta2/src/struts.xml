@@ -11,14 +11,13 @@ and should reside on the classpath of the webapp (generally /WEB-INF/classes). -
 
   <!-- devMode equals debug information and reload everything for every request -->
   <constant name="struts.devMode" value="true" />
-  <constant name="struts.ui.theme" value="simple" />
 
-  <package name="Meta2" extends="struts-default">
+  <package name="teste.action" extends="struts-default">
 	
-	<default-action-ref name="NewFile" />
+	<default-action-ref name="index" ></default-action-ref>
 	
 	<global-results>
-		<result name="error">/error.jsp</result>
+		<result name="error">/index.jsp</result>
 	</global-results>
 
 	<!-- all exceptions not caught by the application will lead to error.jsp -->
@@ -26,15 +25,17 @@ and should reside on the classpath of the webapp (generally /WEB-INF/classes). -
 		<exception-mapping exception="java.lang.Exception" result="error" />
 	</global-exception-mappings>
 
-	<!-- 'NewFile' action leads to the view provided by index.jsp -->
-    <action name="NewFile">
-      <result>/NewFile.jsp</result>
+	<!-- 'index' action leads to the view provided by index.jsp -->
+    <action name="index">
+      <result>/teste.jsp</result>
     </action>
 
-	<!-- 'primes' action calls 'execute' in 'PrimesAction', followed by the view in 'primes.jsp' -->
-    <action name="NewFile" class="NewFile.action.NewFileAction" method="execute">
-      <result name="success">/NewFile.jsp</result>
-    </action>
+	<!-- 'login' action calls 'execute' in 'LoginAction' -->
+	<action name="teste" class="teste.action.TesteAction" method="execute"
+		converter="">
+		<result name="success">/teste.jsp</result>
+		<result name="error">/index.jsp</result>
+	</action>
 
   </package>
 
