@@ -28,6 +28,7 @@ public class UCBusca {
 		users = new HashMap<String, User>();
 		index = new HashMap<String, ArrayList<String>>();
 		qtdSearch  = new HashMap<String, Integer>();
+		sites = new HashMap<String, Site>();
 	}
 	
 	//Funcionalidades dos usuários
@@ -254,7 +255,7 @@ public class UCBusca {
 	 * @param url		Url a qual pertence o texto.
 	 */
 	private void invertedIndex(String text, String url) {
-		String[] words = text.split(" |.|:|?|\n|\t|;|\r|“|”|(|)|{|}|\\\\[\\\\]|<|>|+|!"); //Quebra o texto do site em palavras
+		String[] words = text.split("[ |.|:|?|\n|\t|;|\r|“|”|(|)|{|}|\\\\[\\\\]|<|>|]+"); //Quebra o texto do site em palavras
 		ArrayList<String> array;
 		
 		//Para cada palavra que há no texto

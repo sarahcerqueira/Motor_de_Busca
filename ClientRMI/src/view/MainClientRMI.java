@@ -24,7 +24,7 @@ public class MainClientRMI {
 		MainClientRMI main = new MainClientRMI();
 		
 		try {
-			servidor = (InterfaceServerRMI) Naming.lookup("server");;
+			servidor = (InterfaceServerRMI) Naming.lookup("server");
 			opcao = "0";
 			scanner = new Scanner(System.in);		
 			
@@ -69,12 +69,15 @@ public class MainClientRMI {
 	
 	public void opcoesUsuario(String username){
 		
+			opcao ="x";
+
+		
 			while(true) {
 				
 				switch(opcao) {
 				
 				case("0"):
-					break;
+					return;
 				
 				case("1"):
 					this.search();
@@ -109,6 +112,8 @@ public class MainClientRMI {
 		} catch (IOException e1) {
 			printErroMulticast();
 		}
+		
+		opcao ="x";
 		
 		while(true) {
 					
@@ -163,15 +168,27 @@ public class MainClientRMI {
 		System.out.println("***************************** LOGIN *****************************");
 		System.out.print("Login: ");
 		username = scanner.nextLine();
+		
+		if(username.equals("0")) {
+			opcao ="0";
+			return;
+		}
+		
 		System.out.print("Password: ");
 		password = scanner.nextLine();
 		
-		if(username.equals("0") || password.contentEquals("0"))
+		if(password.contentEquals("0")) {
+			opcao ="0";
 			return;
+		}
+		if(username.equals("") || password.contentEquals("")) {
+			System.out.println("\n Erro: digite o usuário e a senha");
+			return;
+		}
 	
 		try {
 			if(servidor.login(username, password)){
-				System.out.println("\nBem-vindo ao UCBusca "+ username);
+				System.out.println("\n ***************************** BEM VINDO AO UCBUSCA "+ username+"*****************************");
 				
 				if(servidor.userIsAdmin(username)) {
 					this.opcoesAdmin(username);
@@ -183,17 +200,14 @@ public class MainClientRMI {
 				
 			} else {
 				System.out.println("\nSenha ou usuario incorreto :(");
-				scanner.hasNextLine();
+				
 			}
 		} catch (RemoteException e) {
-			System.out.println("Erro ao se comunicar com o servidor rmi\n");
 			printErroRMI();
-			scanner.hasNextLine();
 			//e.printStackTrace();
 			
 		} catch (IOException e) {
 			printErroMulticast();
-			scanner.hasNextLine();
 		}
 		
 		return;
@@ -204,42 +218,55 @@ public class MainClientRMI {
 		System.out.println("***************************** REGISTRY *****************************");
 		String username, password;
 
-		while(opcao.equals("2")){
 			System.out.print("Username: ");
 			username = scanner.nextLine();
+			
+			if(username.equals("0")) {
+				opcao ="0";
+				return;
+			}
+			
 			System.out.print("Password: ");   
 			password = scanner.nextLine();
+			
+			if(password.contentEquals("0")) {
+				opcao ="0";
+				return;
+			}
+			if(username.equals("") || password.contentEquals("")) {
+				System.out.println("\n Erro: digite o usuário e a senha");
+				return;
+			}
 			
 			try {
 				if(servidor.registerUser(username, password)) {
 					System.out.println("\nObrigada por se registrar no UCBusca *-* \n");
+					System.out.println("\n ***************************** BEM VINDO AO UCBUSCA "+ username+"*****************************");
+
 					
 					if(servidor.userIsAdmin(username)) {
 						this.opcoesAdmin(username);
-						return;
 					} else {
 						this.opcoesUsuario(username);
-						return;}
+					}
 					
 				}else{
 					System.out.println("\nNão foi possível cadastrar o username: "+ username+
 							" :( \nTente novamente com um username diferente.\n");
-					opcao = "2";
+					return;
 				}
 			} catch (RemoteException e) {
 				e.printStackTrace();
 				printErroRMI();
-				scanner.hasNextLine();
-				return;
 				
 			} catch (IOException e) {
 				e.printStackTrace();
 				printErroMulticast();
-				scanner.hasNextLine();
-				return;
 			}
+			
+			opcao ="0";
 		
-	}
+	
 	}
 	
 	public void search() {
@@ -370,7 +397,6 @@ public class MainClientRMI {
 			e.printStackTrace();
 		}
 		
-		scanner.nextLine();
 
 	}
 	
