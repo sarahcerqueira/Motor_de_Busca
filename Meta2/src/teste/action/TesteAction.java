@@ -7,7 +7,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import com.opensymphony.xwork2.ActionSupport;
-import teste.model.InterfaceServerRMI;
+
+import model.InterfaceServerRMI;
 
 public class TesteAction extends ActionSupport {
 	private static final long serialVersionUID = 4L;
@@ -58,6 +59,7 @@ public class TesteAction extends ActionSupport {
 		}
 
 		
-		return null;}
+		return ERROR;
+}
 
 }

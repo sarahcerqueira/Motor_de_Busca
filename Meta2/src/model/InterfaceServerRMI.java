@@ -1,4 +1,4 @@
-package teste.model;
+package model;
 
 import java.io.IOException;
 import java.rmi.Remote;
@@ -29,3 +29,6 @@ public interface InterfaceServerRMI extends Remote {
 	
 	
 }
+
+
+
