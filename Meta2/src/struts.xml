@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+
+  <!-- devMode equals debug information and reload everything for every request -->
+  <constant name="struts.devMode" value="true" />
+  <constant name="struts.ui.theme" value="simple" />
+
+  <package name="teste.action" extends="struts-default">
+	
+	<default-action-ref name="index" ></default-action-ref>
+	
+	<global-results>
+		<result name="error">/index.jsp</result>
+	</global-results>
+
+	<!-- all exceptions not caught by the application will lead to error.jsp -->
+	<global-exception-mappings>
+		<exception-mapping exception="java.lang.Exception" result="error" />
+	</global-exception-mappings>
+
+	<!-- 'index' action leads to the view provided by index.jsp -->
+    <action name="index">
+      <result>/teste.jsp</result>
+    </action>
+
+	<!-- 'login' action calls 'execute' in 'LoginAction' -->
+	<action name="teste" class="teste.action.TesteAction" method="execute"
+		converter="">
+		<result name="success">/teste.jsp</result>
+		<result name="error">/index.jsp</result>
+	</action>
+
+  </package>
+
+</struts>
