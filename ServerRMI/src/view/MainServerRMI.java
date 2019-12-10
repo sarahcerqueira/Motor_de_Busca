@@ -19,9 +19,9 @@ public class MainServerRMI {
 				
          try {
 			 try {
-				 
+				 	
 				 	InterfaceServerRMI s = new ServerRMI();
-					LocateRegistry.createRegistry(1099).rebind("server", s);
+					LocateRegistry.createRegistry(1010).rebind("server", s);
 					System.out.println("Servidor RMI ativo");
 				 
 			    	

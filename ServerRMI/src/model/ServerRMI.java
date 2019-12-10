@@ -186,6 +186,7 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 	public ArrayList<String> search(String search) throws IOException {
 		String request = "search|"+search+"|";
 		String[] answer = this.makeRequest(request).split("\\|");
+		
 		ArrayList<String> result = new ArrayList<String>();
 		
 		
@@ -228,8 +229,7 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 	}
 	
 	public String waitAnswer() throws IOException {
-		byte[] buf = new byte[1024];
-		buf = serverComunication.acceptPacket(buf);
+		byte[] buf = serverComunication.acceptPacket();
 		return new String(buf);
 
 	}

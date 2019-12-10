@@ -57,9 +57,49 @@ public class Multicast {
 	 * @param port		Porta pela qual a mensagem deve ser enviada.
 	 * @throws IOException Exceção lançada caso haja problemas ao enviar o pacote.
 	 */
-	public void sendPacketUser(byte[] buf, InetAddress ip, int port) throws IOException {
-		DatagramPacket packet = new DatagramPacket(buf, buf.length, ip, port);
-		socket.send(packet);
+	public void sendPacketUser(byte[] buf, InetAddress ip, int port) {
+		//System.out.print("Buf: "+ buf + "Tamanho: "+buf.length+"\n");
+		int lengthPac=1024;
+		DatagramPacket packet ;
+		int numPac;
+		byte[] bufAux;
+		
+		try {
+		if(buf.length > 65507){
+			numPac = buf.length/lengthPac; //Número de pacotes
+			
+			//Envia o número de pacotes
+			bufAux = Integer.toString(numPac).getBytes();
+			packet = new DatagramPacket(bufAux, bufAux.length, ip, port);
+						
+			for(int i =0; i< numPac; i++) {
+				bufAux = new byte[1024]; //Resert bufAux
+				System.arraycopy(buf, 0, bufAux, i*lengthPac, 1024);
+				packet = new DatagramPacket(bufAux, bufAux.length, ip, port);
+				socket.send(packet);
+
+			}
+
+			 
+			
+			
+		} else {
+			numPac = 1;
+			bufAux = Integer.toString(numPac).getBytes();
+			packet = new DatagramPacket(bufAux, bufAux.length, ip, port);
+			socket.send(packet);
+
+			packet = new DatagramPacket(buf, buf.length, ip, port);
+			socket.send(packet);
+
+			
+		}
+		
+	
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**Deixa o grupo e fecha o socket. 

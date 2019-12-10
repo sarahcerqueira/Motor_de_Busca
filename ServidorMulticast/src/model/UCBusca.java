@@ -29,6 +29,15 @@ public class UCBusca {
 		index = new HashMap<String, ArrayList<String>>();
 		qtdSearch  = new HashMap<String, Integer>();
 		sites = new HashMap<String, Site>();
+		
+		
+		try {
+			this.indexURL("http://lelivros.love/");
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//Funcionalidades dos usuários
@@ -201,7 +210,10 @@ public class UCBusca {
 	 * @throws IOException 
 	 */
 	public void indexURL(String url) throws IOException{
-		this.indexURL(url, null, 0);
+		Indexacao i = new Indexacao(this, url);
+		Thread t = new Thread(i);
+		t.start();
+		//this.indexURL(url, null, 0);
 		
 	}
 	
@@ -213,8 +225,9 @@ public class UCBusca {
 	 * @param level			Refere-se à profundidade na qual está a recussão. 
 	 * @throws IOException 
 	 */
-	private void indexURL(String url, String urlPrevious, int level) throws IOException {
+	public void indexURL(String url, String urlPrevious, int level) throws IOException {
 		Site site; Document doc;
+		//System.out.print("Nivel:"+ level+" Indexando: "+ url+ "\n");
 		
 		//Se o site já estiver indexado, adiciona ao site os sites que fazem ligação para ele.
 		if(this.sites.containsKey(url) && level != 0) {
@@ -228,8 +241,9 @@ public class UCBusca {
 			return;
 		}
 		
-		doc = Jsoup.connect(url).get();
+		doc = Jsoup.connect(url).ignoreContentType(true).get();
 		site = new Site(url, doc.title(), doc.text());
+		this.sites.put(url, site);
 		this.invertedIndex(doc.text(), url);
 		
 		//Em nível 0 não há urlPrevious
@@ -243,7 +257,7 @@ public class UCBusca {
             if (link.attr("href").startsWith("#") || !link.attr("href").startsWith("http")) {
                 continue;
             }
-            indexURL(link.attr("href"), url, level++);
+            indexURL(link.attr("href"), url, level+1);
 
         }
 	
@@ -255,7 +269,7 @@ public class UCBusca {
 	 * @param url		Url a qual pertence o texto.
 	 */
 	private void invertedIndex(String text, String url) {
-		String[] words = text.split("[ |.|:|?|\n|\t|;|\r|“|”|(|)|{|}|\\\\[\\\\]|<|>|]+"); //Quebra o texto do site em palavras
+		String[] words = text.split("[ |.|:|?|\n|\t|;|\r|“|”|(|)|{|}|\\\\[\\\\]|<|>|-|,|]+"); //Quebra o texto do site em palavras
 		ArrayList<String> array;
 		
 		//Para cada palavra que há no texto
@@ -264,6 +278,8 @@ public class UCBusca {
 			if ("".equals(word)) {
                 continue;
             }
+			
+			//System.out.println(word+" ");
 			
 			//Se a palavra já está no index
 			if(index.containsKey(word)) {
@@ -361,7 +377,7 @@ public class UCBusca {
 		
 		ArrayList<String> result = new ArrayList<String>();
 		ArrayList<ArrayList<String>> conjSites = new ArrayList<ArrayList<String>>();
-		String[] words = text.split("[ |.|:|?|\n|\t|;|\r|“|”|(|)|{|}|\\\\[\\\\]|<|>|]+");
+		String[] words = text.split("[ |.|:|?|\n|\t|;|\r|“|”|(|)|{|}|\\\\[\\\\]|<|>|-|,|]+");
 		ArrayList<String> copy;
 		
 		//Pega todos os arrays de sites relacionados a todas as palavras da pesquisa
@@ -378,7 +394,7 @@ public class UCBusca {
 		
 		
 		//Se é maior que 1 é necessario pegar os sites incomuns
-		else if(conjSites.size()> 1) {
+		else {
 			copy = conjSites.get(0);
 			int size = conjSites.size();
 			int sizeCopy = copy.size();
@@ -388,19 +404,24 @@ public class UCBusca {
 			for(int i=0; i<sizeCopy; i++) {	//Para cada site da primeira lista
 				String url = copy.get(i);	//Pega o url do site
 				
-				for(int j=0; j<size; j++) {	//Verifica se contém nos outros arrays
-					if(!conjSites.get(j).contains(url)) {
-						exist = false;
+				if(conjSites.size() > 1) {
+					for(int j=1; j<size; j++) {	//Verifica se contém nos outros arrays
+						if(!conjSites.get(j).contains(url)) {
+							exist = false;
+							break;
+						}
 					}
-				}
-				//Ao termina o segundo loop  e exist ainda for verdadeiro significa que o url faz parte da intersecção
-				if(exist) {
-					result.add(url);
-				}else 
-					exist = true;
-			}			
-		
+					
+					//Ao termina o segundo loop  e exist ainda for verdadeiro significa que o url faz parte da intersecção
+					if(exist) {
+						result.add(url);
+					}else 
+						exist = true;
+				} else {
+					result.add(url);}
 		}
+	} 
+			
 		
 		return this.getSites(result);
 		
@@ -421,7 +442,7 @@ public class UCBusca {
 			site.add(s);
 		}
 		
-		Collections.sort(site);
+	//	Collections.sort(site);
 		
 		return site;
 	}

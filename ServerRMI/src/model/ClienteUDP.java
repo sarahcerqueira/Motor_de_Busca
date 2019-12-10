@@ -32,9 +32,33 @@ public class ClienteUDP {
 	 * @throws IOException	Lança exceção caso haja problemas ao receber o pacote.
 	 * @return				Retorna um objeto do tipo PacketReceived, que tem toda as informações do pacote recebido.
 	 */
-	public byte[] acceptPacket(byte[] buf) throws IOException{
-		DatagramPacket packet = new DatagramPacket(buf,buf.length);
+	public byte[] acceptPacket() throws IOException{
+		int lengthPac=1024;
+		byte[] buf = new byte[lengthPac];
+		DatagramPacket packet = new DatagramPacket(buf, lengthPac);
 		clientSocket.receive(packet);
+		
+		int qtdPacket = Integer.parseInt(packet.getData().toString());
+		
+		if(qtdPacket > 1) {
+			buf = new byte[lengthPac * qtdPacket];
+			byte[] auxBuf;
+			
+			for(int i =0; i<qtdPacket; i++ ) {
+				auxBuf = new byte[lengthPac];
+				packet = new DatagramPacket(auxBuf, lengthPac);
+				clientSocket.receive(packet);
+				auxBuf = packet.getData();
+				System.arraycopy(auxBuf, 0, buf, i * lengthPac, lengthPac);
+				
+			}
+
+			return buf;
+			
+		} else {
+			clientSocket.receive(packet);
+		}
+		
 		return packet.getData();
 	}
 	
