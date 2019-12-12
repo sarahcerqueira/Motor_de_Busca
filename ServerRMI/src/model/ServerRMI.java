@@ -5,7 +5,10 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import rmiInterface.InterfaceServerRMI;
 
@@ -15,6 +18,7 @@ import rmiInterface.InterfaceServerRMI;
  */
 public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI {
 	
+	private ArrayList<String> sites;
 	private ClienteUDP serverComunication;
 
 	public ServerRMI() throws RemoteException, SocketException, UnknownHostException {
@@ -94,11 +98,17 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 
 
 	@Override
-	public void addHistoric(String username, String date, String hour, String url) throws IOException {
-		String request = "addHistoric|username;"+username + "|date;"+date+"|hour;"+hour+"|url;"+url+"|";
+	public void addHistoric(String username, String time, String url) throws IOException {
+		
+		if(username == null) {
+			username = "null";
+		}
+		
+		String request = "addHistoric|username;"+username + "|time;"+time+"|url;"+url+"|";
 		this.makeRequestNoAnswer(request);
 		
 	}
+	
 
 
 	@Override
@@ -186,7 +196,7 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		String request = "search|"+search+"|";
 		String[] answer = this.makeRequest(request).split("\\|");
 		
-		ArrayList<String> result = new ArrayList<String>();
+		sites = new ArrayList<String>();
 		
 		
 		for(int i=3; i<answer.length; i++) {
@@ -198,14 +208,14 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 			String text = answer[i].split(";")[2];
 
 			
-			result.add(title);
-			result.add(url);
-			result.add(text);
+			sites.add(title);
+			sites.add(url);
+			sites.add(text);
 
 		}
 		
 
-		return result;
+		return sites;
 	}
 
 	
@@ -235,6 +245,27 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		return new String(buf);
 
 	}
+
+
+	@Override
+	public String getSite(String username, int index) throws IOException {
+		index = index +1;
+		System.out.println("Quantidade: "+sites.size() + " :" + sites.size()/3);
+		if(sites.isEmpty() || sites.size()/3 < index)
+			return null;
+		
+		this.addHistoric(username, getDateTime(), sites.get(index*3+1));
+		
+		return sites.get(index*3+1);//Posição 1 titulo, 2 url, 3 texto
+	}
+	
+	private String getDateTime() { 
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+		Date date = new Date(); 
+		return dateFormat.format(date); 
+	}
+	
+	
 
 
 	

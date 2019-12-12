@@ -78,17 +78,14 @@ public class User {
 		return this.historic;
 	}
 
-	/**Adiciona um histórico de acesso. O método primeiro verifica se o site consta no histórico.
-	 * Se o site já existir no histórico, o histórico anterior é removido, e é adicionado o 
-	 * histórico de acesso mais recente à aquele site.
+	/**Adiciona um histórico de acesso.
 	 * 
-	 * @param data 		Data de acesso ao site.
-	 * @param hora		Hora de acesso ao site.
+	 * @param time		Hora e data em que  site foi acessado
 	 * @param url		Url do site visitado.
 	 */
-	public void addStory(String date, String hour, String url){
+	public void addStory(String time, String url){
 		this.checkIfUrlExit(url);
-		this.historic.add(new Story(date, hour, url));
+		this.historic.add(new Story(time, url));
 		
 	}
 	

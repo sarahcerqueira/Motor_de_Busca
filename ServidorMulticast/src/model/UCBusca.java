@@ -121,11 +121,15 @@ public class UCBusca {
 	 * @param hour			Hora do acesso
 	 * @param url			O site que foi acessado.
 	 */
-	public void addHistoric(String username,String date, String hour, String url ) {
+	public void addHistoric(String username,String time, String url ) {
 		
 		if(users.containsKey(username)) {
 			User user = users.get(username);
-			user.addStory(date, hour, url);
+			user.addStory(time, url);
+		}
+		
+		if(this.sites.containsKey(url)) {
+			this.sites.get(url).addNumAcess();
 		}
 		
 	}

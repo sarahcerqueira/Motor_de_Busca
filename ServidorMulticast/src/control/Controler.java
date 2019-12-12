@@ -99,11 +99,11 @@ public class Controler {
 		
 		ArrayList<Story> story = ucBusca.getHistoric(username);
 		int size = story.size();
-		String result = "getHistoric|size;"+size+"|date;hora;url|";
+		String result = "getHistoric|size;"+size+"|time;url|";
 		
 		for(int i =0; i<size; i++) {
 			Story s = story.get(i);
-			result = result + s.getDate()+";"+s.getHour()+";"+s.getUrl()+"|";
+			result = result + s.getTime()+";"+s.getUrl()+"|";
 		}
 		
 		return result;
@@ -195,11 +195,15 @@ public class Controler {
 
 	public void addHistoric(String[] request) {
 		String username = request[1].split(";")[1];
-		String date = request[2].split(";")[1];
-		String hour = request[3].split(";")[1];
-		String url = request[4].split(";")[1];
+		String time = request[2].split(";")[1];
+		String url = request[3].split(";")[1];
 		
-		ucBusca.addHistoric(username, date, hour, url);
+		if(username.equals("null")) {
+			username = null;
+			
+		}
+		
+		ucBusca.addHistoric(username, time, url);
 	}
 	
 	public String search(String[] request) {

@@ -218,7 +218,7 @@ public class MainClientRMI {
 	public void registry() {
 		
 		System.out.println("***************************** REGISTRY *****************************");
-		String username, password;
+		String password;
 
 			System.out.print("Username: ");
 			username = scanner.nextLine();
@@ -301,13 +301,33 @@ public class MainClientRMI {
 			
 			
 			for(int i =0; i< tam; i=i+3) {
-				System.out.print(sites.get(i)+ "\n"+
+			
+					System.out.print("Page: "+(i/3+1) + "\n"+sites.get(i)+ "\n"+
 								sites.get(i+1)+"\n"+
 								sites.get(i+2)+"\n\n");
+				} 
 
-			}
+			
 			
 			}
+			
+			while(!opcao.equals("\n") && !opcao.equals("\n")) {
+				opcao = scanner.nextLine();
+				
+				try {
+					String url = servidor.getSite(username, Integer.parseInt(opcao));
+
+					Runtime.getRuntime().exec("cmd.exe /C start iexplore.exe "+url);
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			
+			}
+			
+			
 			
 		} catch (RemoteException e) {
 			printErroRMI();
@@ -315,7 +335,7 @@ public class MainClientRMI {
 			printErroMulticast();
 		}
 		
-		scanner.nextLine();
+		
 		return;
 		
 	}
