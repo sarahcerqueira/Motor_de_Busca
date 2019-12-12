@@ -1,7 +1,8 @@
 package view;
 
-import model.InterfaceServerRMI;
 import model.ServerRMI;
+import rmiInterface.InterfaceServerRMI;
+
 import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -21,7 +22,7 @@ public class MainServerRMI {
 			 try {
 				 	
 				 	InterfaceServerRMI s = new ServerRMI();
-					LocateRegistry.createRegistry(1010).rebind("server", s);
+					LocateRegistry.createRegistry(1015).rebind("server", s);
 					System.out.println("Servidor RMI ativo");
 				 
 			    	

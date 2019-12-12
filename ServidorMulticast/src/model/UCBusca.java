@@ -32,11 +32,11 @@ public class UCBusca {
 		
 		
 		try {
-			this.indexURL("http://lelivros.love/");
+			this.indexURL("https://www.uc.pt/");
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -241,7 +241,7 @@ public class UCBusca {
 			return;
 		}
 		
-		doc = Jsoup.connect(url).ignoreContentType(true).get();
+		doc = Jsoup.connect(url).get();
 		site = new Site(url, doc.title(), doc.text());
 		this.sites.put(url, site);
 		this.invertedIndex(doc.text(), url);

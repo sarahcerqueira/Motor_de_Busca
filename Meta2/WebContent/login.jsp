@@ -8,9 +8,12 @@
 <title>UC Busca</title>
 </head>
 <body>
-	<s:form action="search" method="post">
-		<s:text name="Search:" />
-		<s:textfield name="search" /><br>
+	<s:form action="login" method="post">
+		<s:text name="Username:" />
+		<s:textfield name="username" /><br>
+		<s:text name="Password:" />
+		<s:textfield name="password" /><br>
+		<s:submit />
 	</s:form>
 </body>
 </html>

@@ -10,7 +10,7 @@
   <constant name="struts.devMode" value="true" />
   <constant name="struts.ui.theme" value="simple" />
 
-  <package name="teste.action" extends="struts-default">
+  <package name="meta2.action" extends="struts-default">
 	
 	<default-action-ref name="index" ></default-action-ref>
 	
@@ -25,14 +25,21 @@
 
 	<!-- 'index' action leads to the view provided by index.jsp -->
     <action name="index">
-      <result>/teste.jsp</result>
+		<result>/index.jsp</result>
     </action>
 
 	<!-- 'login' action calls 'execute' in 'LoginAction' -->
-	<action name="teste" class="teste.action.TesteAction" method="execute"
+	<action name="login" class="meta2.action.LoginAction" method="execute"
 		converter="">
-		<result name="success">/teste.jsp</result>
-		<result name="error">/index.jsp</result>
+		<result name="success">/usepage.jsp</result>
+		<result name="error">/login.jsp</result>
+	</action>
+	
+	<!-- 'login' action calls 'execute' in 'LoginAction' -->
+	<action name="registry" class="meta2.action.RegistryAction" method="execute"
+		converter="">
+		<result name="success">/usepage.jsp</result>
+		<result name="error">/registry.jsp</result>
 	</action>
 
   </package>

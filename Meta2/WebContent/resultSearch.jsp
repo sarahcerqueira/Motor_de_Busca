@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>UC Busca</title>
 </head>
 <body>
-Você fez login;
+Você fez busca;
 </body>
 </html>

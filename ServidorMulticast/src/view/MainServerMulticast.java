@@ -25,7 +25,7 @@ public class MainServerMulticast {
 				PacketReceived packet = multicast.acceptPacket(new byte[1024]);
 				String [] request = new String(packet.getData()).split("\\|");
 				
-				System.out.printf(request[0] + ":"+ request[1]+":"+ request[2]);
+				//System.out.printf(request[0] + ":"+ request[1]+":"+ request[2]);
 				answer = null;
 				
 				//Verifica o tipo de solicitação e manda para o controler

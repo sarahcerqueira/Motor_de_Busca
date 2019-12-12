@@ -1,4 +1,4 @@
-package model;
+package rmiInterface;
 
 import java.io.IOException;
 import java.rmi.Remote;

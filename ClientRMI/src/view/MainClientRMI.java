@@ -7,16 +7,16 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import model.InterfaceServerRMI;
+import rmiInterface.InterfaceServerRMI;
 
 /** Classe que implementa o método principal do Cliente RMI. Faz a conexão com o servidor RMI, e a interface entre usuário sistema.
  * 
  */
 public class MainClientRMI {
 	
+	private static InterfaceServerRMI servidor;
 	private static String opcao;
 	private static Scanner scanner;
-	private static InterfaceServerRMI servidor;
 	private String username;
 
 	public static void main(String[] args) {
@@ -24,7 +24,9 @@ public class MainClientRMI {
 		MainClientRMI main = new MainClientRMI();
 		
 		try {
-			servidor = (InterfaceServerRMI) Naming.lookup("rmi://10.101.210.5:1010/server");
+			
+			//servidor = (InterfaceServerRMI) Naming.lookup("server");
+			servidor = (InterfaceServerRMI) Naming.lookup("rmi://10.101.210.5:1015/server");
 			opcao = "0";
 			scanner = new Scanner(System.in);		
 			

@@ -20,7 +20,7 @@ public class Indexacao implements Runnable {
 				uc.indexURL(url, null, 0);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			
 		

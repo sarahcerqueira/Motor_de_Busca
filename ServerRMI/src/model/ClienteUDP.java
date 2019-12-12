@@ -38,7 +38,12 @@ public class ClienteUDP {
 		DatagramPacket packet = new DatagramPacket(buf, lengthPac);
 		clientSocket.receive(packet);
 		
-		int qtdPacket = Integer.parseInt(packet.getData().toString());
+		String s = new String(packet.getData());
+		
+		s = s.replaceAll("[^1-9]", "");
+		int qtdPacket = Integer.parseInt(s);
+
+		//int qtdPacket = Integer.parseInt(packet.getData().toString());
 		
 		if(qtdPacket > 1) {
 			buf = new byte[lengthPac * qtdPacket];
@@ -56,6 +61,8 @@ public class ClienteUDP {
 			return buf;
 			
 		} else {
+			buf = new byte[65507];
+			packet = new DatagramPacket(buf, 65507);
 			clientSocket.receive(packet);
 		}
 		

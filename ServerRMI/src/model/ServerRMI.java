@@ -7,8 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-
-import model.InterfaceServerRMI;
+import rmiInterface.InterfaceServerRMI;
 
 /** Implementa os métodos remotos do servidor RMI. Cada método é uma solicitação ao servidor multicast.
  * Na implementação dos métodos o servidor RMI converte os dados de entrada para o protocolo do sistema e envia
@@ -191,6 +190,9 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		
 		
 		for(int i=3; i<answer.length; i++) {
+			if(answer[i].equals("") || !answer[i].contains(";"))
+				continue;
+			
 			String title = answer[i].split(";")[0];
 			String url = answer[i].split(";")[1];
 			String text = answer[i].split(";")[2];

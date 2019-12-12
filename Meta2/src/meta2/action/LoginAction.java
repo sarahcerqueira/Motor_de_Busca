@@ -1,16 +1,12 @@
-package teste.action;
+package meta2.action;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-
 import com.opensymphony.xwork2.ActionSupport;
+import model.RMIConection;
+import rmiInterface.InterfaceServerRMI;
 
-import model.InterfaceServerRMI;
-
-public class TesteAction extends ActionSupport {
+public class LoginAction extends ActionSupport {
 	private static final long serialVersionUID = 4L;
 	private static InterfaceServerRMI servidor;
 	private String username;
@@ -36,7 +32,7 @@ public class TesteAction extends ActionSupport {
 	
 	public String execute() {
 		try {
-			servidor = (InterfaceServerRMI) Naming.lookup("server");
+			servidor = RMIConection.rmi();
 			
 			if(servidor.login(username, password)) {
 				return SUCCESS;
@@ -44,19 +40,11 @@ public class TesteAction extends ActionSupport {
 				return ERROR;
 			}
 			
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			
+		} catch (NotBoundException | IOException e) {
+			System.out.println("Erro ao se conectar com o servidor RMI");
+			//e.printStackTrace();
+		} 
 
 		
 		return ERROR;
