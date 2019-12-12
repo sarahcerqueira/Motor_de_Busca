@@ -442,7 +442,8 @@ public class UCBusca {
 			site.add(s);
 		}
 		
-	//	Collections.sort(site);
+		if(!site.isEmpty())
+			Collections.sort(site);
 		
 		return site;
 	}

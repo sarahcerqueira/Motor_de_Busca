@@ -7,6 +7,13 @@
 <title>UC Busca</title>
 </head>
 <body>
-Você fez login;
+
+Opções do usuário
+
+<a href="login.jsp">Fazer Busca</a>
+
+
+
+
 </body>
 </html>

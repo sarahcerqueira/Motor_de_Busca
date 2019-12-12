@@ -292,10 +292,15 @@ public class MainClientRMI {
 			} else {
 			
 			
-			System.out.print(sites.size() + " resultados\n\n");
+			System.out.print(sites.size()/3 + " resultados\n\n");
 
+			int tam = sites.size();
 			
-			for(int i =0; i< sites.size(); i=i+3) {
+			if(tam > 30)
+				tam = 30;
+			
+			
+			for(int i =0; i< tam; i=i+3) {
 				System.out.print(sites.get(i)+ "\n"+
 								sites.get(i+1)+"\n"+
 								sites.get(i+2)+"\n\n");

@@ -13,6 +13,13 @@ public class MainServerMulticast {
 	public static void main(String[] args) {
 		
 		try {
+			Runtime.getRuntime().exec("cmd.exe /C start iexplore.exe http://rafsantos.zip.net");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
 			//Declações de variáveis que serão utilizadas
 			Multicast multicast = new Multicast();
 			Controler system = new Controler();

@@ -190,7 +190,7 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		
 		
 		for(int i=3; i<answer.length; i++) {
-			if(answer[i].equals("") || !answer[i].contains(";"))
+			if(answer[i].equals("") || !answer[i].contains(";") || answer[i].split(";").length<3 )
 				continue;
 			
 			String title = answer[i].split(";")[0];

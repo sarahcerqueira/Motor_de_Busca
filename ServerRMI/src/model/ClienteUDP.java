@@ -40,8 +40,9 @@ public class ClienteUDP {
 		
 		String s = new String(packet.getData());
 		
-		s = s.replaceAll("[^1-9]", "");
+		s = s.replaceAll("[^0-9]", "");
 		int qtdPacket = Integer.parseInt(s);
+		//System.out.println("Números de pacotes "+ qtdPacket);
 
 		//int qtdPacket = Integer.parseInt(packet.getData().toString());
 		
@@ -53,6 +54,7 @@ public class ClienteUDP {
 				auxBuf = new byte[lengthPac];
 				packet = new DatagramPacket(auxBuf, lengthPac);
 				clientSocket.receive(packet);
+				this.sendPacket("ok".getBytes());
 				auxBuf = packet.getData();
 				System.arraycopy(auxBuf, 0, buf, i * lengthPac, lengthPac);
 				

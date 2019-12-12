@@ -66,17 +66,21 @@ public class Multicast {
 		
 		try {
 		if(buf.length > 65507){
-			numPac = buf.length/lengthPac; //Número de pacotes
+			numPac = buf.length/lengthPac;
 			
+			//Número de pacotes
+			//System.out.println("Números de pacotes "+ numPac);		
 			//Envia o número de pacotes
 			bufAux = Integer.toString(numPac).getBytes();
 			packet = new DatagramPacket(bufAux, bufAux.length, ip, port);
-						
+			socket.send(packet);
+
 			for(int i =0; i< numPac; i++) {
 				bufAux = new byte[1024]; //Resert bufAux
-				System.arraycopy(buf, 0, bufAux, i*lengthPac, 1024);
+				System.arraycopy(buf, i*lengthPac, bufAux,0 , 1024);
 				packet = new DatagramPacket(bufAux, bufAux.length, ip, port);
 				socket.send(packet);
+				this.acceptPacket(bufAux);
 
 			}
 
