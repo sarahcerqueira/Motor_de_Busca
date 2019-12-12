@@ -81,15 +81,16 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		String[] answer = this.makeRequest(request).split("\\|");
 		ArrayList<String> historic = new ArrayList<String>();
 		
-		if(answer.length < 3) {
+		if(answer.length <= 4) {
 			return null;
 		}
 		
 		for(int i=3; i<answer.length;i++) {
-			String time = "Data: "+answer[i].split(";")[0]+" Hora: "+answer[i].split(";")[1];
-			String url = answer[i].split(";")[2];
-			historic.add(time);
-			historic.add(url);
+			if(answer[i].split(";").length >= 2) {
+				String time = answer[i].split(";")[0];
+				String url = answer[i].split(";")[1];
+				historic.add(time);
+				historic.add(url);}
 			
 		}
 		
@@ -153,16 +154,18 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		String[] answer = this.makeRequest(request).split("\\|");
 		ArrayList<String> importantPages = new ArrayList<String>();
 		
-		if(answer.length < 3) {
+		if(answer.length <= 3) {
 			return null;
 		}
 		
 		for(int i=3; i<answer.length; i++) {
-			String url = answer[i].split(";")[0];
-			String numAcesso = answer[i].split(";")[1];
 			
-			importantPages.add(url);
-			importantPages.add(numAcesso);
+			if(answer[i].split(";").length >= 2) {
+				String url = answer[i].split(";")[0];
+				String numAcesso = answer[i].split(";")[1];
+				
+				importantPages.add(url);
+				importantPages.add(numAcesso);}
 		}
 		
 		return importantPages;
@@ -175,16 +178,19 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		String[] answer = this.makeRequest(request).split("\\|");
 		ArrayList<String> importantSearch = new ArrayList<String>();
 		
-		if(answer.length < 3) {
+		if(answer.length <= 3) {
 			return null;
 		}
 		
 		for(int i=3; i<answer.length; i++) {
-			String search = answer[i].split(";")[0];
-			String numAcesso = answer[i].split(";")[1];
-			
-			importantSearch.add(search);
-			importantSearch.add(numAcesso);
+			if(answer[i].split(";").length >= 2) {
+
+				String search = answer[i].split(";")[0];
+				String numAcesso = answer[i].split(";")[1];
+				
+				importantSearch.add(search);
+				importantSearch.add(numAcesso);
+			}
 		}
 		
 
@@ -249,7 +255,7 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 
 	@Override
 	public String getSite(String username, int index) throws IOException {
-		index = index +1;
+		index = index -1;
 		System.out.println("Quantidade: "+sites.size() + " :" + sites.size()/3);
 		if(sites.isEmpty() || sites.size()/3 < index)
 			return null;

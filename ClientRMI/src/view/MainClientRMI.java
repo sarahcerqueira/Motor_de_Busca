@@ -25,8 +25,8 @@ public class MainClientRMI {
 		
 		try {
 			
-			//servidor = (InterfaceServerRMI) Naming.lookup("server");
-			servidor = (InterfaceServerRMI) Naming.lookup("rmi://10.101.210.5:1015/server");
+			servidor = (InterfaceServerRMI) Naming.lookup("rmi://192.168.2.188:1015/server");
+			//servidor = (InterfaceServerRMI) Naming.lookup("rmi://10.101.210.5:1015/server");
 			opcao = "0";
 			scanner = new Scanner(System.in);		
 			
@@ -117,7 +117,7 @@ public class MainClientRMI {
 		
 		opcao ="x";
 		
-		while(true) {
+		while(!opcao.equals("0")) {
 					
 					switch(opcao) {
 					case("0"):
@@ -125,26 +125,33 @@ public class MainClientRMI {
 					
 					case("1"):
 						this.search();
+						opcao ="x";
 						break;
 					
 					case("2"):
 						this.getHistoric();
+						opcao ="x";
 						break;
 					
 					case("3"):
 						this.indexarURL();
+						opcao ="x";
 						break;
 					
 					case("4"):
+						this.paginasMaisAcessadas();
+						opcao ="x";
+
 						break;
 					
 					case("5"):
-						this.paginasMaisAcessadas();;
+						this.textosMaisPesquisados();
+						opcao ="x";
 						break;
 					
 					case("6"):
 						this.addAdm();
-						opcao = "default";
+						opcao ="x";
 						break;
 					
 					default:
@@ -156,13 +163,13 @@ public class MainClientRMI {
 								+ "4 - 10 páginas mais pesquisadas\n"
 								+ "5 - 10 pesquisas mais comuns\n"
 								+ "6 - Adicionar administrador\n");
+						
+						opcao =	scanner.nextLine();
+
 					}
 					
-					opcao =	scanner.nextLine();
 		
 				}
-		
-		
 	}
 	
 	public void login() {
@@ -311,8 +318,9 @@ public class MainClientRMI {
 			
 			}
 			
-			while(!opcao.equals("\n") && !opcao.equals("\n")) {
-				opcao = scanner.nextLine();
+			opcao = scanner.nextLine();
+
+			while(!opcao.equals("\n") && !opcao.equals("0") && !opcao.equals("") ) {
 				
 				try {
 					String url = servidor.getSite(username, Integer.parseInt(opcao));
@@ -323,6 +331,9 @@ public class MainClientRMI {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				opcao = scanner.nextLine();
+
 			
 			
 			}
@@ -366,7 +377,6 @@ public class MainClientRMI {
 			printErroMulticast();
 		}
 		
-		scanner.hasNextLine();
 		return;
 	}
 	

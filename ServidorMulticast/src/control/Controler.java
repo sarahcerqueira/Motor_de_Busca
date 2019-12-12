@@ -125,7 +125,10 @@ public class Controler {
 	 */
 	public String getImportantPages() {
 		List<Entry<String, Site>> list = ucBusca.getImportantPages();
-		int size = list.size();
+		int size=0;
+		
+		if(list!= null && !list.isEmpty())
+			size = list.size();
 		
 		String result = "getImportantPages|size;"+size+"|url;numero de acesso|";
 		
@@ -143,7 +146,10 @@ public class Controler {
 	 */
 	public String getImportantSearch() {
 		List<Entry<String, Integer>> list = ucBusca.getImportantSearch();
-		int size = list.size();
+		int size = 0;
+		
+		if(list!= null && !list.isEmpty())
+			size = list.size();
 		
 		String result = "getImportantSearch|size;"+size+"|pesquisa;numero de acesso|";
 		

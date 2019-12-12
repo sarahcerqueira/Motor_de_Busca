@@ -317,21 +317,27 @@ public class UCBusca {
 				Entry<String, Site> mapa1 =  (Entry<String, Site>) o1;
 				Entry<String, Site> mapa2 =  (Entry<String, Site>) o2;
 				
-				return new Integer(mapa1.getValue().getNumAcess()).compareTo(new Integer (mapa2.getValue().getNumAcess()));
+				return new Integer(mapa2.getValue().getNumAcess()).compareTo(new Integer (mapa1.getValue().getNumAcess()));
 			}});
 		
-		//Pega somente os 10 primeiros sites
-		if(list.size()> 10) {
+
 			List<Entry<String, Site>> result = new LinkedList<Entry<String, Site>>();
+			int size = 10;
 			
-			for(int i =0; i<10; i++) {
-				result.add(list.get(i));
+			if(size > list.size())
+				size = list.size();
+			
+			for(int i =0; i<size; i++) {
+				if(list.get(i).getValue().getNumAcess() > 0)
+					result.add(list.get(i));
 			}
 			
-			list = result;
-		}
+			if(result.isEmpty())
+				return null;
 		
-		return list;
+		
+		
+		return result;
 	}
 	
 	/**Retorna as 10 pesquisas mais importantes.
@@ -345,7 +351,7 @@ public class UCBusca {
 				Entry<String, Integer> mapa1 =  (Entry<String, Integer>) o1;
 				Entry<String, Integer> mapa2 =  (Entry<String, Integer>) o2;
 				
-				return mapa1.getValue().compareTo(mapa2.getValue());
+				return mapa2.getValue().compareTo(mapa1.getValue());
 			}});
 		
 		if(list.size()> 10) {
@@ -357,6 +363,9 @@ public class UCBusca {
 			
 			list = result;
 		}
+		
+		if(list.isEmpty())
+			return null;
 		
 		return list;
        		
