@@ -25,8 +25,8 @@ public class MainClientRMI {
 		
 		try {
 			
-			servidor = (InterfaceServerRMI) Naming.lookup("rmi://192.168.2.188:1015/server");
-			//servidor = (InterfaceServerRMI) Naming.lookup("rmi://10.101.210.5:1015/server");
+			//servidor = (InterfaceServerRMI) Naming.lookup("rmi://192.168.2.188:1015/server");
+			servidor = (InterfaceServerRMI) Naming.lookup("rmi://194.210.38.230:1015/server");
 			opcao = "0";
 			scanner = new Scanner(System.in);		
 			

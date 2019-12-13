@@ -29,17 +29,30 @@
     </action>
 
 	<!-- 'login' action calls 'execute' in 'LoginAction' -->
-	<action name="login" class="meta2.action.LoginAction" method="execute"
-		converter="">
-		<result name="success">/usepage.jsp</result>
+	<action name="login" class="meta2.action.LoginAction" method="execute">
+		<result name="success">/nonAdmin.jsp</result>
 		<result name="error">/login.jsp</result>
 	</action>
 	
-	<!-- 'login' action calls 'execute' in 'LoginAction' -->
+	<!-- 'registry' action calls 'execute' in 'RegistryAction' -->
 	<action name="registry" class="meta2.action.RegistryAction" method="execute"
 		converter="">
 		<result name="success">/usepage.jsp</result>
 		<result name="error">/registry.jsp</result>
+	</action>
+	
+	<!-- 'login' action calls 'execute' in 'SearchAction' -->
+	<action name="search" class="meta2.action.SearchAction" method="execute"
+		converter="">
+		<result name="success">/usepage.jsp</result>
+		<result name="error">/search.jsp</result>
+	</action>
+	
+	<!-- 'login' action calls 'execute' in 'SearchAction' -->
+	<action name="historic" class="meta2.action.HistoricAction" method="execute"
+		converter="">
+		<result name="success">/historic.jsp</result>
+		<result name="error">/usepage.jsp</result>
 	</action>
 
   </package>

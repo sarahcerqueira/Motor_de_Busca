@@ -8,11 +8,12 @@
 </head>
 <body>
 
-Opções do usuário
-
-<a href="login.jsp">Fazer Busca</a>
+Without register options:
 
 
+<a href="login.jsp">Log in</a>
+<a href="registry.jsp">Registrar</a>
+<a href="search.jsp">Fazer Busca</a>
 
 
 </body>

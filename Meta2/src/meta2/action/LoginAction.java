@@ -2,15 +2,21 @@ package meta2.action;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
 import com.opensymphony.xwork2.ActionSupport;
 import model.RMIConection;
 import rmiInterface.InterfaceServerRMI;
 
-public class LoginAction extends ActionSupport {
+public class LoginAction extends ActionSupport implements SessionAware{
 	private static final long serialVersionUID = 4L;
 	private static InterfaceServerRMI servidor;
 	private String username;
 	private String password;
+	private Map<String, Object> session;
 
 	
 	public String getUsername() {
@@ -35,8 +41,19 @@ public class LoginAction extends ActionSupport {
 			servidor = RMIConection.rmi();
 			
 			if(servidor.login(username, password)) {
+				System.out.println(":)");
+				session.put("username", username);
+				session.put("password", password);
+				session.put("loggedin", true);
+				ArrayList<String> fake_results = new ArrayList<>();
+				fake_results.add("really");
+				fake_results.add("ARRRRRRGGGGH");
+				session.put("historicresults", fake_results);
+				//servidor.addHistoric(username, "O", "www.google.com");
+				
 				return SUCCESS;
 			} else {
+				System.out.println("LOL2");
 				return ERROR;
 			}
 			
@@ -49,5 +66,10 @@ public class LoginAction extends ActionSupport {
 		
 		return ERROR;
 }
+	
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+	}
 
 }

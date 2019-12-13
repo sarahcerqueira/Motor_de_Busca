@@ -13,10 +13,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import model.UCBusca.Indexacao;
+
 /** UCBusca armazena todos os dados do sistema em tempo de compilação. Todas as funcionalidades
  * do sistema estão disponíveis nessa classe.
  */
 public class UCBusca {
+	
 	private HashMap<String, User> users;
 	private HashMap<String, ArrayList<String>> index;
 	private HashMap<String, Site> sites; //Armazenamento de sites indexados
@@ -478,5 +481,25 @@ public class UCBusca {
 	}
 	
 
+	public class Indexacao implements Runnable {
+		private UCBusca ucBusca;
+		private String url;
 
+		public Indexacao(UCBusca ucBusca, String url) {
+			this.ucBusca = ucBusca;
+			this.url = url;
+		}
+
+		@Override
+		public void run() {
+			try {
+				ucBusca.indexURL(url, null, 0);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+
+	}
 }

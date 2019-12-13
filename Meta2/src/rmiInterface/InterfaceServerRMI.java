@@ -32,3 +32,6 @@ public interface InterfaceServerRMI extends Remote {
 	
 	
 }
+
+
+
