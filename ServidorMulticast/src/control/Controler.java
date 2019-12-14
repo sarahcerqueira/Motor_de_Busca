@@ -98,7 +98,12 @@ public class Controler {
 		String username = request[1].split(";")[1];
 		
 		ArrayList<Story> story = ucBusca.getHistoric(username);
-		int size = story.size();
+		int size = 0;
+		
+		if(story!= null)
+			size = story.size();
+				
+				story.size();
 		String result = "getHistoric|size;"+size+"|time;url|";
 		
 		for(int i =0; i<size; i++) {

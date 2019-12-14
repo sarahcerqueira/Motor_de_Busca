@@ -9,17 +9,27 @@
 <title>UC Busca</title>
 </head>
 <body>
-	<s:form action="historic" method="post">
-	<c:when test="${session.loggedin == true}">
-			<p>Welcome, ${session.username}. Say HEY to someone.</p>
-		</c:when>
 		<p>Here is your historic, ${session.username}</p>
 		<br>
 		
-		<c:forEach items="${session.historicresults}" var="v">
-			<c:out value ="${v}" /><br>
-		</c:forEach>
+		
+	<c:choose>
 	
-	</s:form>
+	<c:when test="${session.historicBean.size <= 0}">
+			<p>Você não tem histórico</p>
+		</c:when>
+			
+		<c:when test="${session.historicBean.size > 0}">
+			<p>Você tem histórico</p>
+		</c:when>
+	</c:choose>
+	
+	<c:forEach items="${session.historicBean.historic}" var="value">
+		<c:out value="${value}" /><br>
+	</c:forEach>
+	
+		
+		
+    	
 </body>
 </html>

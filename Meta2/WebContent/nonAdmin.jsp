@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -12,11 +13,10 @@ User registered as nonAdmin options:
 <br>
 <a href="search.jsp">Search</a>
 <br>
-<a href="historic.jsp">Historic</a>
-<s:form action="historic" method="post">
-		<s:submit type = "button" label = "Historic" />
-		
-</s:form>
+
+
+<a href=<s:url action='historic'/>>Historic</a>
+
 <br>
 <a href="usepage.jsp">Exit</a>
 

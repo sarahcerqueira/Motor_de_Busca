@@ -82,7 +82,7 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		ArrayList<String> historic = new ArrayList<String>();
 		
 		if(answer.length <= 4) {
-			return null;
+			return historic;
 		}
 		
 		for(int i=3; i<answer.length;i++) {
