@@ -11,9 +11,10 @@
 
 User registered as nonAdmin options:
 <br>
-<a href="search.jsp">Search</a>
+<a href="searchResults.jsp">Search</a>
 <br>
 
+<a href=<s:url action='searchResults'/>>searchResults</a>
 
 <a href=<s:url action='historic'/>>Historic</a>
 

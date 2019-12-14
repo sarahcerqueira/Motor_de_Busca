@@ -10,10 +10,13 @@ public class HistoricBean {
 	
 	public HistoricBean (ArrayList<String> h) {
 		this.historic = h;
+		System.out.println(historic);
+		//System.out.println("Hey");
 		size = h.size();
 	}
 	
 	public int getSize() {
+		System.out.println(size);
 		return size;
 	}
 
