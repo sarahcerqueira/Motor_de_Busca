@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Notify</title>
+    <script type="text/javascript">
+
+        var websocket = null;
+
+        window.onload = function() { // URI = ws://10.16.0.165:8080/WebSocket/ws
+            connect('ws://' + window.location.host + '/WebSocket/ws');
+            document.getElementById("notify").focus();
+        }
+
+        function connect(host) { // connect to the host websocket
+            if ('Motor_de_Busca' in window)
+                websocket = new WebSocket(host);
+            else if ('MozWebSocket' in window)
+                websocket = new MozWebSocket(host);
+            else {
+                writeToHistory('Get a real browser which supports WebSocket.');
+                return;
+            }
+
+            websocket.onopen    = onOpen; // set the 4 event listeners below
+            websocket.onclose   = onClose;
+            websocket.onmessage = onMessage;
+            websocket.onerror   = onError;
+        }
+
+        function onOpen(event) {
+            writeToHistory('Connected to ' + window.location.host + '.');
+            document.getElementById('notify').onkeydown = function(key) {
+                if (key.keyCode == 13)
+                    doSend(); // call doSend() on enter key press
+            };
+        }
+        
+        function onClose(event) {
+            writeToHistory('WebSocket closed (code ' + event.code + ').');
+            document.getElementById('notify').onkeydown = null;
+        }
+        
+        function onMessage(message) { // print the received message
+            writeToHistory(message.data);
+        }
+        
+        function onError(event) {
+            writeToHistory('WebSocket error.');
+            document.getElementById('notify').onkeydown = null;
+        }
+        
+        function doSend() {
+            var message = document.getElementById('notify').value;
+            if (message != '')
+                websocket.send(message); // send the message to the server
+            document.getElementById('notify').value = '';
+        }
+
+        function writeToHistory(text) {
+            var history = document.getElementById('history');
+            var line = document.createElement('p');
+            line.style.wordWrap = 'break-word';
+            line.innerHTML = text;
+            history.appendChild(line);
+            history.scrollTop = history.scrollHeight;
+        }
+
+    </script>
+</head>
+<body>
+<noscript>JavaScript must be enabled for WebSockets to work.</noscript>
+<div>
+    <div id="container"><div id="history"></div></div>
+    <p><input type="text" placeholder="type to notify" id="notify"></p>
+</div>
+</body>
+</html>
