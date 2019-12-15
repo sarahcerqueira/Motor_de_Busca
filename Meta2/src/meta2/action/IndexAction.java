@@ -4,29 +4,26 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
-
 import com.opensymphony.xwork2.ActionSupport;
-
-import model.Bean;
 import model.RMIConection;
 import rmiInterface.InterfaceServerRMI;
 
-public class T10PagesAction extends ActionSupport implements SessionAware {
-	
+public class IndexAction extends ActionSupport implements SessionAware  {
 	private static final long serialVersionUID = 4L;
 	private static InterfaceServerRMI servidor;
+	private String url;
 	private Map<String, Object> session;
+
 	
 	public String execute(){
 		try {
+			System.out.println(url);
 			servidor = RMIConection.rmi();
-			ArrayList<String> pages = servidor.getImportantPages();
-			pages = trata(pages);
-			this.setBean(new Bean(pages));
+			servidor.indexURL(url);
+			session.put("indexacao", true);
 			
 			return SUCCESS;
 		} catch (MalformedURLException e) {
@@ -43,44 +40,22 @@ public class T10PagesAction extends ActionSupport implements SessionAware {
 			e.printStackTrace();
 		}
 		
-		return ERROR;	
-	}
-	
-	public ArrayList<String> trata (ArrayList<String> s ){
-		ArrayList<String> novo = new ArrayList<String>();
-		
-		for(int i =0; i<s.size(); i=i+2) {
-			novo.add(s.get(i)+"\n"+s.get(i+1));
-		}
-		
-		return novo;
+		session.put("indexacao", false);
+		return ERROR;
 		
 	}
 	
-	public Bean getBean() {
-
-		if(!session.containsKey("pages"))
-			try {
-				ArrayList<String> pages = servidor.getImportantPages();
-				pages = trata(pages);
-				this.setBean(new Bean(pages));
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
-		return (Bean) session.get("pages");
-			
-	}
-
-	public void setBean(Bean bean) {
-			session.put("pages", bean);
-
-	}
 	
+	public String getUrl() {
+		return url;
+	}
+
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+
 	@Override
 	public void setSession(Map<String, Object> session) {
 		this.session = session;

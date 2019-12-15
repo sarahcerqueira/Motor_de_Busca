@@ -24,6 +24,7 @@ public class ClienteUDP {
 	public ClienteUDP() throws SocketException, UnknownHostException {
 		clientSocket = new DatagramSocket();
 		servidor = InetAddress.getByName(ip_server);
+		clientSocket.setSoTimeout(1000);
 	}
 	
 	/**Aceita pacotes UDP. 
@@ -33,6 +34,7 @@ public class ClienteUDP {
 	 * @return				Retorna um objeto do tipo PacketReceived, que tem toda as informações do pacote recebido.
 	 */
 	public byte[] acceptPacket() throws IOException{
+		clientSocket.setSoTimeout(1000);
 		int lengthPac=1024;
 		byte[] buf = new byte[lengthPac];
 		DatagramPacket packet = new DatagramPacket(buf, lengthPac);
@@ -67,8 +69,11 @@ public class ClienteUDP {
 			packet = new DatagramPacket(buf, 65507);
 			clientSocket.receive(packet);
 		}
+		clientSocket.setSoTimeout(1000);
+
 		
 		return packet.getData();
+
 	}
 	
 	/**Envia pacotes UDP. 

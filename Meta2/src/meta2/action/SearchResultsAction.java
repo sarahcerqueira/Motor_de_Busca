@@ -11,7 +11,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import model.HistoricBean;
+import model.Bean;
 import model.RMIConection;
 import rmiInterface.InterfaceServerRMI;
 
@@ -37,7 +37,7 @@ public class SearchResultsAction extends ActionSupport implements SessionAware {
 				ArrayList<String> s = servidor.search("Coimbra");
 				System.out.println("Hace execute");
 				//System.out.println(s);
-				this.setSearchRBean(new HistoricBean(s));
+				this.setSearchRBean(new Bean(s));
 				System.out.println("action searchresults: " + s.size());
 
 			} catch (MalformedURLException e) {
@@ -59,12 +59,12 @@ public class SearchResultsAction extends ActionSupport implements SessionAware {
 	
 	
 
-	public HistoricBean getHistoricBean() {
+	public Bean getHistoricBean() {
 		System.out.println("get search");
 
 		if(!session.containsKey("searchRBean"))
 			try {
-				this.setSearchRBean(new HistoricBean(servidor.search("Coimbra")));
+				this.setSearchRBean(new Bean(servidor.search("Coimbra")));
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -73,11 +73,11 @@ public class SearchResultsAction extends ActionSupport implements SessionAware {
 				e.printStackTrace();
 			}
 		
-		return (HistoricBean) session.get("searchRBean");
+		return (Bean) session.get("searchRBean");
 			
 	}
 
-	public void setSearchRBean(HistoricBean searchRBean) {
+	public void setSearchRBean(Bean searchRBean) {
 			System.out.println("Settt");
 			session.put("searchRBean", searchRBean);
 			System.out.println("Settt2");

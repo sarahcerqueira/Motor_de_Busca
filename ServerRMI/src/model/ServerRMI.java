@@ -197,6 +197,22 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 		return importantSearch;
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public ArrayList<String> search(String search) throws IOException {
 		String request = "search|"+search+"|";
@@ -212,6 +228,10 @@ public class ServerRMI extends UnicastRemoteObject implements InterfaceServerRMI
 			String title = answer[i].split(";")[0];
 			String url = answer[i].split(";")[1];
 			String text = answer[i].split(";")[2];
+			
+			if(text.length() > 500) {
+				text = text.substring(0, 500);
+			}
 
 			
 			sites.add(title);

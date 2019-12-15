@@ -8,9 +8,19 @@
 <title>UC Busca</title>
 </head>
 <body>
-	<s:form action="search" method="post">
-		<s:text name="Search:" />
-		<s:textfield name="search" /><br>
+	<s:form action="index" method="post">
+		<s:text name="URL:" />
+		<s:textfield name="url" /><br>
+		<s:submit />
 	</s:form>
+	
+	<c:choose>
+		<c:when test="${session.indexacao}">
+			<br>Sua solicitação foi enviada :)
+		</c:when>
+		<c:when test="${session.indexacao}">
+			<br>Houve problemas com sua solicitacao :)
+		</c:when>
+	</c:choose>
 </body>
 </html>

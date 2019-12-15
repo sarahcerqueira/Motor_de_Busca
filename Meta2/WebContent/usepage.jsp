@@ -12,10 +12,13 @@
 
 Without register options:
 
-
+<br>
 <a href="login.jsp">Log in</a>
+<br>
 <a href="registry.jsp">Registrar</a>
+<br>
 <a href="search.jsp">Fazer Busca</a>
+<br>
 
 
 </body>

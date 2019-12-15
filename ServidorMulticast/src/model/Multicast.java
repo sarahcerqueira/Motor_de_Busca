@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.SocketException;
 
 /**A classe Multicast é responsável pela comunicação multicast entre os servidores.
  * Nela está configurado de forma estática o ip do grupo multicast como "230.0.0.0" e a porta para 4448.
@@ -25,6 +26,7 @@ public class Multicast {
 		socket = new MulticastSocket(port);
 		group = InetAddress.getByName(ip_group);
 		socket.joinGroup(group);
+
 	}
 	
 	/**Aceita pacotes UDP do grupo multicast. 
@@ -55,9 +57,11 @@ public class Multicast {
 	 * @param buf		Mensagem a qual será enviada como vetor de bytes.
 	 * @param ip		Endereço de ip da resposta.
 	 * @param port		Porta pela qual a mensagem deve ser enviada.
+	 * @throws SocketException 
 	 * @throws IOException Exceção lançada caso haja problemas ao enviar o pacote.
 	 */
-	public void sendPacketUser(byte[] buf, InetAddress ip, int port) {
+	public void sendPacketUser(byte[] buf, InetAddress ip, int port) throws SocketException {
+		socket.setSoTimeout(1000);
 		//System.out.print("Buf: "+ buf + "Tamanho: "+buf.length+"\n");
 		int lengthPac=1024;
 		DatagramPacket packet ;
@@ -104,6 +108,8 @@ public class Multicast {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		socket.setSoTimeout(0);
 	}
 	
 	/**Deixa o grupo e fecha o socket. 

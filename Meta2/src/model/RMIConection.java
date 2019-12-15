@@ -14,7 +14,7 @@ public class RMIConection {
 		if(servidor == null) {
 			//servidor = (InterfaceServerRMI) Naming.lookup("server");
 			//servidor = (InterfaceServerRMI) Naming.lookup("rmi://localhost:1015/server");
-			servidor = (InterfaceServerRMI) Naming.lookup("rmi://192.168.1.174:1015/server");
+			servidor = (InterfaceServerRMI) Naming.lookup("rmi://192.168.2.187:1015/server");
 
 			//mine:
 			//servidor = (InterfaceServerRMI) Naming.lookup("rmi://10.101.223.81:1015/server");

@@ -11,7 +11,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import model.HistoricBean;
+import model.Bean;
 import model.RMIConection;
 import rmiInterface.InterfaceServerRMI;
 
@@ -26,8 +26,8 @@ public class HistoricAction extends ActionSupport implements SessionAware {
 			try {
 				servidor = RMIConection.rmi();
 				ArrayList<String> s = servidor.getHistoric((String)session.get("username"));
-				this.setHistoricBeans(new HistoricBean(s));
-				System.out.println("action historic " + s.size());
+				s = this.trata(s);
+				this.setBean(new Bean(s));
 
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -48,12 +48,11 @@ public class HistoricAction extends ActionSupport implements SessionAware {
 	
 	
 
-	public HistoricBean getHistoricBean() {
-		System.out.println("get historic");
+	public Bean getBean() {
 
 		if(!session.containsKey("historicBean"))
 			try {
-				this.setHistoricBeans(new HistoricBean(servidor.getHistoric((String)session.get("username"))));
+				this.setBean(new Bean(servidor.getHistoric((String)session.get("username"))));
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -62,15 +61,25 @@ public class HistoricAction extends ActionSupport implements SessionAware {
 				e.printStackTrace();
 			}
 		
-		return (HistoricBean) session.get("historicBean");
+		return (Bean) session.get("historicBean");
 			
 	}
 
-	public void setHistoricBeans(HistoricBean historicBean) {
+	public void setBean(Bean historicBean) {
 			session.put("historicBean", historicBean);
 
 	}
 	
+	public ArrayList<String> trata (ArrayList<String> s ){
+		ArrayList<String> novo = new ArrayList<String>();
+		
+		for(int i =0; i<s.size(); i=i+2) {
+			novo.add(s.get(0)+"\n"+s.get(i+1));
+		}
+		
+		return novo;
+		
+	}
 
 
 	@Override

@@ -1,12 +1,29 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>UC Busca</title>
 </head>
 <body>
+
+<c:choose>
+	
+	<c:when test="${session.words.size <= 0}">
+		There are not search words.
+		</c:when>
+			
+		<c:when test="${session.words.size > 0}">
+		<br>
+			<c:forEach items="${session.words.text}" var="value">
+				<c:out value="${value}" /><br>
+			</c:forEach>
+		
+		</c:when>
+	</c:choose>
 
 </body>
 </html>

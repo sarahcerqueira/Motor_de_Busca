@@ -45,12 +45,12 @@ public class LoginAction extends ActionSupport implements SessionAware{
 				session.put("username", username);
 				session.put("password", password);
 				session.put("loggedin", true);
-				ArrayList<String> fake_results = new ArrayList<>();
-				fake_results.add("really");
-				fake_results.add("ARRRRRRGGGGH");
-				session.put("historicresults", fake_results);
-				//servidor.addHistoric(username, "O", "www.google.com");
 				
+				if(servidor.userIsAdmin(username))
+					session.put("admin", true);
+
+
+								
 				return SUCCESS;
 			} else {
 				System.out.println("LOL2");

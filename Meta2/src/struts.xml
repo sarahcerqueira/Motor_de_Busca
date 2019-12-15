@@ -24,7 +24,7 @@
 	</global-exception-mappings>
 
 	<!-- 'index' action leads to the view provided by index.jsp -->
-    <action name="index">
+    <action name="index" class="meta2.action.IndexAction"  method="execute" >
 		<result>/index.jsp</result>
     </action>
 
@@ -44,7 +44,7 @@
 	<!-- 'login' action calls 'execute' in 'SearchAction' -->
 	<action name="search" class="meta2.action.SearchAction" method="execute"
 		converter="">
-		<result name="success">/searchResults.jsp</result>
+		<result name="success">/search.jsp</result>
 		<result name="error">/search.jsp</result>
 	</action>
 	
@@ -59,6 +59,21 @@
 		converter="">
 		<result name="success">/searchResults.jsp</result>
 		<result name="error">/usepage.jsp</result>
+	</action>
+	
+	<action name="search2" class="meta2.action.SearchAction" method="add"
+		converter="">
+		<result >/search.jsp</result>
+	</action>
+	
+	<action name="t10words" class="meta2.action.T10WordsAction" method="execute"
+		converter="">
+		<result >t10words.jsp</result>
+	</action>
+	
+	<action name="t10pages" class="meta2.action.T10PagesAction" method="execute"
+		converter="">
+		<result >/t10pages.jsp</result>
 	</action>
 
   </package>

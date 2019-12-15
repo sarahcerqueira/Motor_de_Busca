@@ -25,7 +25,7 @@ public class MainClientRMI {
 		
 		try {
 			
-			servidor = (InterfaceServerRMI) Naming.lookup("rmi://192.168.1.174:1015/server");
+			servidor = (InterfaceServerRMI) Naming.lookup("rmi://192.168.2.187:1015/server");
 			//servidor = (InterfaceServerRMI) Naming.lookup("rmi://194.210.24.95:1015/server");
 			opcao = "0";
 			scanner = new Scanner(System.in);		
@@ -299,7 +299,7 @@ public class MainClientRMI {
 			} else {
 			
 			
-			System.out.print(sites.size()/3 + " resultados\n\n");
+			System.out.print(sites.size() + " resultados\n\n");
 
 			int tam = sites.size();
 			
@@ -307,11 +307,9 @@ public class MainClientRMI {
 				tam = 30;
 			
 			
-			for(int i =0; i< tam; i=i+3) {
+			for(int i =0; i< tam; i++) {
 			
-					System.out.print("Page: "+(i/3+1) + "\n"+sites.get(i)+ "\n"+
-								sites.get(i+1)+"\n"+
-								sites.get(i+2)+"\n\n");
+					System.out.print("Page: "+(i+1) + "\n"+sites.get(i)+"\n\n");
 				} 
 
 			
@@ -481,7 +479,7 @@ public class MainClientRMI {
 			}
 			
 			for(int i=0; i< text.size(); i=i+2) {
-				System.out.print("Url: "+text.get(i)+ "\n"+
+				System.out.print("Texto: "+text.get(i)+ "\n"+
 						"Número de acessos: "+text.get(i+1)+"\n\n");
 			}
 			

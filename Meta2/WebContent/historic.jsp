@@ -20,13 +20,13 @@
 		</c:when>
 			
 		<c:when test="${session.historicBean.size > 0}">
-			<p>Você tem histórico</p>
+			<c:forEach items="${session.historicBean.text}" var="value">
+		<c:out value="${value}" /><br>
+	</c:forEach>
 		</c:when>
 	</c:choose>
 	
-	<c:forEach items="${session.historicBean.historic}" var="value">
-		<c:out value="${value}" /><br>
-	</c:forEach>
+	
 	
 		
 		

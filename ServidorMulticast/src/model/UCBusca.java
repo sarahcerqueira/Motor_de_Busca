@@ -472,7 +472,7 @@ public class UCBusca {
 		
 		if(this.qtdSearch.containsKey(text)) {
 			Integer i = this.qtdSearch.get(text);
-			this.qtdSearch.replace(text, i++);
+			this.qtdSearch.replace(text, i+1);
 			
 		}else{
 			this.qtdSearch.put(text, 1);
